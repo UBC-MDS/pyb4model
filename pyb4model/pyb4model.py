@@ -109,14 +109,14 @@ class ForSelect:
 import pandas as pd
 
 def feature_splitter(x):
-    """ Splits dataset column names into a tupple of categorical and numerical lists
+    """ Splits dataset column names into a tuple of categorical and numerical lists
     Parameters
     ----------
     x : DateFrame
     Returns
     -------
-    tupple: 
-        tupple of two lists
+    tuple: 
+        tuple of two lists
     
     Example
     -------
