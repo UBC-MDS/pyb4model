@@ -27,6 +27,7 @@ def missing_val(df, method):
 
     # INSERT CODE HERE
 
+    
 def fit_and_report(model, X, y, Xv, yv, m_type = 'regression'):
     """
     fits a model and returns the train and validation errors as a list
@@ -59,9 +60,9 @@ def fit_and_report(model, X, y, Xv, yv, m_type = 'regression'):
         errors = [1 - model.score(X,y), 1 - model.score(Xv,yv)]        
     return errors
 
+
 import numpy as  np
 from sklearn.model_selection import cross_val_score
-
 
 class ForSelect:
     def __init__(self, model,
@@ -83,9 +84,6 @@ class ForSelect:
         fs = ForSelect
         """
 
-
-
-
     def fit(self, X, y):
         """
         - Implementation of forward selection algorithm.
@@ -106,3 +104,25 @@ class ForSelect:
         fs.fit(X_train, y_train)
         fs.ftr_
         """
+
+        
+import pandas as pd
+
+def feature_splitter(x):
+    """ Splits dataset column names into a tupple of categorical and numerical lists
+    Parameters
+    ----------
+    x : DateFrame
+    Returns
+    -------
+    tupple: 
+        tupple of two lists
+    
+    Example
+    -------
+    >>> feature_splitter(data)
+    ([categorical:],[numerical: ])
+    """
+    #code goes here
+
+    pass
