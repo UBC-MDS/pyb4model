@@ -2,7 +2,7 @@
 name = "pyb4model"
 version = "0.1.0"
 description = "A python package to preprocess data and conduct machine learning!"
-authors = ["Andrea <andrea.lee.011@gmail.com>", "Jake", "Sakariya", "Xinwen"]
+authors = ["Sakariya Aynashe", "Andrea Lee", "Jaekun Lee", "Xinwen Wang"]
 license = "MIT"
 
 [tool.poetry.dependencies]
