@@ -21,3 +21,7 @@ This project aims to build a Python package that elegently performs data pre-pro
 - This function will return a dataframe with only the selected features.
 
 ## Python Ecosystem
+
+Python package `sklearn` provides extensive classes of Machine Learning models and functions for feature selection and engineering. However, it does not have Forward Feature Selection. Some of the feature selection that `sklearn` have are: recursive feature elimination, univariate feature selection, and L1-based feature elimination. It is a tedious job to write numerous lines to split, scale, fit and report scores for baseline models or models with default settings, once you are used to `sklearn`. 
+
+In this sense, our package can save programmer's time by providing a wrapper of `sklearn` and use them with a few lines of code instead of copy and pasting a long series of code.
