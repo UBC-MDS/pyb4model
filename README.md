@@ -1,7 +1,7 @@
 # pyb4model Python Package
 
 ## Summary
-This project aims to build a Python package that elegantly performs data pre-processing in a fast and easy manner. With four separate functions that will come along with the pyb4model package, users will have greater flexibility in handling many different types of datasets in the wild or those collected by them. With pyb4model package, users will be able to smoothly pre-process their data and have it ready for the machine learning model of their choice.
+This project aims to build a Python package that elegantly performs data pre-processing in a fast and easy manner. With four separate functions that will come along with the pyb4model package, users will have greater flexibility in handling many different types of datasets in the wild or those collected by them. With the pyb4model package, users will be able to smoothly pre-process their data and have it ready for the machine learning model of their choice.
 
 ## Functions
 `missing_val`
