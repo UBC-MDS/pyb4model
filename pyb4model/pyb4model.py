@@ -27,8 +27,8 @@ def missing_val(df, method):
 
     # INSERT CODE HERE
 
-    
-def fit_and_report(model, X, y, Xv, yv, m_type = 'regression'):
+from sklearn.metrics import mean_squared_error
+ddef fit_and_report(model, X, y, Xv, yv, m_type = 'regression'):
     """
     fits a model and returns the train and validation errors as a list
     
@@ -54,22 +54,22 @@ def fit_and_report(model, X, y, Xv, yv, m_type = 'regression'):
     
     """
     if not isinstance(m_type, str):
-        print('Input should be a string')
+        raise TypeError('Input should be a string')
     
     if not "sklearn" in str(type(model)):
-        raise Exception('model should be from sklearn package')
+        raise TypeError('model should be from sklearn package')
         
     if not "numpy.ndarray" in str(type(X)):
-        raise Exception('Input X should be a numpy array')
+        raise TypeError('Input X should be a numpy array')
     
     if not "numpy.ndarray" in str(type(y)):
-        raise Exception('Input y should be a numpy array')
+        raise TypeError('Input y should be a numpy array')
         
     if not "numpy.ndarray" in str(type(Xv)):
-        raise Exception('Input Xv should be a numpy array')
+        raise TypeError('Input Xv should be a numpy array')
         
     if not "numpy.ndarray" in str(type(yv)):
-        raise Exception('Input yv should be a numpy array')
+        raise TypeError('Input yv should be a numpy array')
         
     model.fit(X, y)
     if m_type.lower().startswith('regress'):
@@ -77,6 +77,7 @@ def fit_and_report(model, X, y, Xv, yv, m_type = 'regression'):
     if m_type.lower().startswith('classif'):
         errors = [1 - model.score(X,y), 1 - model.score(Xv,yv)]        
     return errors
+
 
 
 
