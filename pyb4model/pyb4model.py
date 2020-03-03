@@ -53,12 +53,31 @@ def fit_and_report(model, X, y, Xv, yv, m_type = 'regression'):
         A list containing train (on X, y) and validation (on Xv, yv) errors
     
     """
+    if not isinstance(m_type, str):
+        print('Input should be a string')
+    
+    if not "sklearn" in str(type(model)):
+        raise Exception('model should be from sklearn package')
+        
+    if not "numpy.ndarray" in str(type(X)):
+        raise Exception('Input X should be a numpy array')
+    
+    if not "numpy.ndarray" in str(type(y)):
+        raise Exception('Input y should be a numpy array')
+        
+    if not "numpy.ndarray" in str(type(Xv)):
+        raise Exception('Input Xv should be a numpy array')
+        
+    if not "numpy.ndarray" in str(type(yv)):
+        raise Exception('Input yv should be a numpy array')
+        
     model.fit(X, y)
     if m_type.lower().startswith('regress'):
         errors = [mean_squared_error(y, model.predict(X)), mean_squared_error(yv, model.predict(Xv))]
     if m_type.lower().startswith('classif'):
         errors = [1 - model.score(X,y), 1 - model.score(Xv,yv)]        
     return errors
+
 
 
 import numpy as  np
