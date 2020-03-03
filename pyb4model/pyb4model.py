@@ -188,13 +188,9 @@ def Test_ForSelect():
     assert type(max_features) == int
     assert type(min_features) == int
     assert type(cv) == int
-    if isinstance(data_feature, pd.DataFrame):
-        pass
-    else:
+    if not isinstance(data_feature, pd.DataFrame):
         raise TypeError("Your data_feature must be a pd.DataFrame object")
-    if isinstance(data_label, pd.DataFrame):
-        pass
-    else:
+    if not isinstance(data_label, pd.DataFrame):
         raise TypeError("Your data_label must be a pd.Series object")
     assert 
     assert problem_type is in ["classification", "regression"]
