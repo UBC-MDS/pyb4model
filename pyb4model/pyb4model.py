@@ -28,7 +28,7 @@ def missing_val(df, method):
     # INSERT CODE HERE
 
 from sklearn.metrics import mean_squared_error
-ddef fit_and_report(model, X, y, Xv, yv, m_type = 'regression'):
+def fit_and_report(model, X, y, Xv, yv, m_type = 'regression'):
     """
     fits a model and returns the train and validation errors as a list
     
