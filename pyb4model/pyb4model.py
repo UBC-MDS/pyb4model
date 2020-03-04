@@ -143,6 +143,22 @@ def feature_splitter(x):
     >>> feature_splitter(data)
     ([categorical:],[numerical: ])
     """
-    #code goes here
-
-    pass
+    # Identify the categorical and numeric columns
+    assert data.shape[1]>1 and data.shape[0]>1, "Your data file in not valid, dataframe should have at least\
+                                                one column and one row"    
+    if not isinstance(data, pd.DataFrame):
+        raise Exception('the input data should be a data frame')
+        
+    d_types = data.dtypes
+    categorical = []
+    numerical = []
+    
+    for data_type, features in zip(d_types, d_types.index):
+        if data_type == "object":
+            categorical.append(features)
+        else:
+            numerical.append(features)
+            
+    assert len(numerical) + len(categorical)==data.shape[1], "categorical and numerical variable list must match\
+                                                                number of columns in the data frame"
+    return numerical, categorical
