@@ -1,4 +1,4 @@
-from pyb4model.feature_splitter import feature_splitter
+from pyb4model import pyb4model
 import pandas as pd
 
 def test_feature_splitter():
