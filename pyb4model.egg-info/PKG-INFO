@@ -1,0 +1,10 @@
+Metadata-Version: 1.2
+Name: pyb4model
+Version: 0.1.0
+Summary: A python package to preprocess data and conduct machine learning!
+Home-page: UNKNOWN
+Author: Sakariya Aynashe
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
+Requires-Python: >=3.7,<4.0
