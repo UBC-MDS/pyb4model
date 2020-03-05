@@ -128,7 +128,7 @@ class ForSelect:
         
 import pandas as pd
 
-def feature_splitter(x):
+def feature_splitter(data):
     """ Splits dataset column names into a tuple of categorical and numerical lists
     Parameters
     ----------

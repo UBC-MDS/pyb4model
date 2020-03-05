@@ -1,0 +1,8 @@
+README.md
+setup.py
+pyb4model/__init__.py
+pyb4model/pyb4model.py
+pyb4model.egg-info/PKG-INFO
+pyb4model.egg-info/SOURCES.txt
+pyb4model.egg-info/dependency_links.txt
+pyb4model.egg-info/top_level.txt
