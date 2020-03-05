@@ -8,6 +8,8 @@ def test_feature_splitter():
         'Anual Salary(USD)':[40000, 65000, 70000, 15000],
         'Nationality':['Canada', 'USA', 'Britain', 'Australia'],
         'Marital Status':['Married', 'Single', 'Maried', 'Single']} 
+   df = pd.DataFrame(df)
+
   data_categorical_only = {'Name':['John', 'Micheal', 'Lindsey', 'Adam'],
         'Nationality':['Canada', 'USA', 'Britain', 'Australia'],
         'Marital Status':['Married', 'Single', 'Maried', 'Single']} 
