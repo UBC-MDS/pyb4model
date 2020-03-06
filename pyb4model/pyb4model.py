@@ -1,3 +1,9 @@
+from sklearn.metrics import mean_squared_error
+from sklearn.impute import KNNImputer
+from sklearn.model_selection import cross_val_score
+import numpy as  np
+import pandas as pd
+
 def missing_val(df, method):
     """
     Handles missing values.
@@ -8,8 +14,8 @@ def missing_val(df, method):
     method: string
         Method to handle missing values.
         'delete', deletes row with missing values
-        'avg', replaces missing value with the average
-        'last', replaces missing value with the last observation 
+        'mean', replaces missing values with the averages
+        'knn', replaces missing values with nearest neighbour
     Returns
     -------
     pandas dataframe
@@ -24,10 +30,37 @@ def missing_val(df, method):
     1  1  5  6
     2  7  8  9
     """
+    
+    # tests
+    
+    if method not in ['delete', 'mean', 'knn']:
+        raise ValueError('valid methods only include "delete", "mean", and "regression"')
+    
+    if not isinstance(df, pd.DataFrame) and not isinstance(df, np.ndarray) and not isinstance(df, pd.Series):
+        raise TypeError('df must be a dataframe, series, or array')
+        
+    if df.empty: # edge case
+        raise ValueError('dataframe cannot be empty')
+        
+    for i in range(len(df.columns)): # edge case
+        if df.iloc[:,i].isnull().sum()==len(df):
+            raise ValueError('dataframe cannot columns with all NaN values')
+    
+    # function
+    
+    if method=='delete':
+        df = df.dropna()
+    
+    if method=='mean':
+        df = df.fillna(df.mean())
+        
+    if method=='knn':
+        imputer = KNNImputer(n_neighbors=2, weights="uniform")
+        df = pd.DataFrame(imputer.fit_transform(df))
+    
+    return df
 
-    # INSERT CODE HERE
 
-from sklearn.metrics import mean_squared_error
 def fit_and_report(model, X, y, Xv, yv, m_type = 'regression'):
     """
     fits a model and returns the train and validation errors as a list
@@ -79,11 +112,6 @@ def fit_and_report(model, X, y, Xv, yv, m_type = 'regression'):
     return errors
 
 
-
-
-import numpy as  np
-from sklearn.model_selection import cross_val_score
-
 class ForSelect:
     def __init__(self, model,
                  min_features=None,
@@ -126,8 +154,6 @@ class ForSelect:
         """
 
         
-import pandas as pd
-
 def feature_splitter(x):
     """ Splits dataset column names into a tuple of categorical and numerical lists
     Parameters
