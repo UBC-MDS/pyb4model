@@ -23,6 +23,7 @@ def test_missing_val():
     with pytest.raises(TypeError):
         missing_val(1, 'delete')
 
+
 #Here we use knn for regression and classification model and iris dataset for testing
 class Test_model(unittest.TestCase):
     def test_fit_and_report(self):
@@ -47,9 +48,9 @@ class Test_model(unittest.TestCase):
         self.assertRaises(TypeError, fit_and_report, 1, X, y, Xv, yv, 'regression')
         self.assertRaises(TypeError, fit_and_report, knn_r, 1,y, Xv, yv, 'regression')
 
-<<<<<<< HEAD
 
 
+# Test for Feature Selection
 def Test_ForSelect():
 
     # Test Input Types
@@ -68,7 +69,9 @@ def Test_ForSelect():
     print("Input Type Test passed")
 
     return 
-=======
+
+
+
 def test_feature_splitter():
   df = {'Name':['John', 'Micheal', 'Lindsey', 'Adam'],
         'Age':[40, 22, 39, 15],
@@ -92,4 +95,3 @@ def test_feature_splitter():
   assert feature_splitter(df_cat) == ([], ['Name', 'Nationality', 'Marital Status']), \
     "Dataframes with only categorical data should return a tuple with emply list for numeric\
      and a list for categoric variables"
->>>>>>> 166f933c57dd0364a0bfbb7b5e0655844e38dbf4
