@@ -155,75 +155,93 @@ def ForSelect(model,
         new_X_train = X_train[selected_features]
         """
 
-        # Test the input & arguments
-        Test_ForSelect()
+    # Test Input Types
+    if "sklearn" not in str(type(model)):
+        raise TypeError("Your Model should be sklearn model")
+    if (type(max_features) != int) and (max_features is not None):
+        raise TypeError("Your max number of features should be an integer")
+    if type(min_features) != int:
+        raise TypeError("Your min number of features should be an integer")
+    if type(cv) != int:
+        raise TypeError("Your cross validation number should be an integer")
+    if not isinstance(data_feature, pd.DataFrame):
+        raise TypeError("Your data_feature must be a pd.DataFrame object")
+    if not isinstance(data_label, pd.DataFrame):
+        raise TypeError("Your data_label must be a pd.Series object")
 
-        # Create Empty Feature list
-        ftr_ = []
+    if problem_type not in ["classification", "regression"]:
+        raise ValueError("Your problem should be 'classification' or 'regression'")
+    if data_feature.shape[0] != data_label.shape[0]:
+        raise IndexError("Number of rows are different in training feature and label")
+    
+    print("Input Type Test passed")
 
-        # Define maximum amount of features
-        if max_features is None:
-            max_features = X.shape[1]
+    # Create Empty Feature list
+    ftr_ = []
 
-        # total list of features
-        total_ftr = list(range(0, X.shape[1]))
+    # Define maximum amount of features
+    if max_features is None:
+        max_features = X.shape[1]
 
-        # define scoring
-        if problem_type=="regression":
-            scoring='neg_mean_squared_error',
+    # total list of features
+    total_ftr = list(range(0, X.shape[1]))
+
+    # define scoring
+    if problem_type=="regression":
+        scoring='neg_mean_squared_error',
+    else:
+        scoring='accuracy'
+    
+    # initialize error score
+    best_score = -np.inf
+
+    i = 0
+
+    while len(ftr_) < max_features:
+        # remove already selected features
+        features_unselected = list(set(total_ftr) - set(ftr_))
+
+        # Initialize potential candidate feature to select
+        candidate = None
+
+        # Iterate
+        for feature in features_unselected:
+            ftr_candidate = ftr_ + [feature]
+            eval_score = np.mean(cross_val_score(model,
+                                                    X[:, ftr_candidate],
+                                                    y,
+                                                    cv=cv,
+                                                    scoring=scoring))
+
+            # If computed error score is better than our current best score
+            if eval_score > best_score:
+                best_score = eval_score  # Overwrite the best_score
+                candidate = feature  # Consider the feature as candidate
+
+        # Add the selected feature
+        if candidate is not None:
+            ftr_.append(candidate)
+
+            # Report Progress
+            i = i + 1
+            if i % 5 == 0:
+                print("{} Iterations Done".format(i))
+                print("current best score: {}".format(best_score))
+
+                print("Current selected features: {}".format(ftr_))
+                print("\n")
+
         else:
-            scoring='accuracy'
-        
-        # initialize error score
-        best_score = -np.inf
+            # End process
+            print("{} iterations in total".format(i))
+            print("Final selected features: {}".format(ftr_))
+            break
 
-        i = 0
+    # End Process
+    print("{} iterations in total".format(i))
+    print("Final selected features: {}".format(ftr_))
 
-        while len(ftr_) < max_features:
-            # remove already selected features
-            features_unselected = list(set(total_ftr) - set(ftr_))
-
-            # Initialize potential candidate feature to select
-            candidate = None
-
-            # Iterate
-            for feature in features_unselected:
-                ftr_candidate = ftr_ + [feature]
-                eval_score = np.mean(cross_val_score(model,
-                                                     X[:, ftr_candidate],
-                                                     y,
-                                                     cv=cv,
-                                                     scoring=scoring))
-
-                # If computed error score is better than our current best score
-                if eval_score > best_score:
-                    best_score = eval_score  # Overwrite the best_score
-                    candidate = feature  # Consider the feature as candidate
-
-            # Add the selected feature
-            if candidate is not None:
-                ftr_.append(candidate)
-
-                # Report Progress
-                i = i + 1
-                if i % 5 == 0:
-                    print("{} Iterations Done".format(i))
-                    print("current best score: {}".format(best_score))
-
-                    print("Current selected features: {}".format(ftr_))
-                    print("\n")
-
-            else:
-                # End process
-                print("{} iterations in total".format(i))
-                print("Final selected features: {}".format(ftr_))
-                break
-
-        # End Process
-        print("{} iterations in total".format(i))
-        print("Final selected features: {}".format(ftr_))
-
-        return ftr_
+    return ftr_
 
     
 

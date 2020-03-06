@@ -52,23 +52,28 @@ class Test_model(unittest.TestCase):
 
 # Test for Feature Selection
 def Test_ForSelect():
+    knn_c = KNeighborsClassifier()
+    X,y = datasets.load_iris(return_X_y = True)
+    X = pd.DataFrame(X)
+    y = pd.Series(y)
+    prob = "classification"
+    cv = 10
 
-    # Test Input Types
-    assert "sklearn" in str(type(model))
-    assert type(max_features) == int
-    assert type(min_features) == int
-    assert type(cv) == int
-    if not isinstance(data_feature, pd.DataFrame):
-        raise TypeError("Your data_feature must be a pd.DataFrame object")
-    if not isinstance(data_label, pd.DataFrame):
-        raise TypeError("Your data_label must be a pd.Series object")
-    assert 
-    assert problem_type is in ["classification", "regression"]
-    assert data_feature.shape[0] == data_label.shape[0]
+    result = ForSelect(knn_c, X, y, problem_type=prob, cv=cv)
+
+    # Results should be a list with selected features
+    assert type(result) == list
+
+    # Results should have at least one element
+    assert len(result) => 1
+
+    # All elements must be included in the input features
+    for ele in result:
+        assert ele in X.columns
     
-    print("Input Type Test passed")
 
-    return 
+
+
 
 
 
