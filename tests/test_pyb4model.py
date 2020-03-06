@@ -7,24 +7,16 @@ import pytest
 import numpy as np
 
 def test_missing_val():
-
     df = pd.DataFrame({'A': [1, np.nan, 2, 1, 3], 'B': [np.nan, 4, 5, 6, 3]})
-
     assert len(missing_val(df, 'delete'))==3, 'listwise deletion should remove rows with missing values'
-
     assert missing_val(df, 'mean').iloc[:, 1][0]==4.5, 'mean imputation should replace missing value with average'
-
     assert missing_val(df, 'knn').iloc[:, 1][0]==5.5, 'knn imputation should replace missing value with nearest neighbour'
-
     with pytest.raises(ValueError):
         missing_val(pd.DataFrame(), 'delete')
-    
     with pytest.raises(ValueError):
         missing_val(df, 'del')
-        
     with pytest.raises(ValueError):
         missing_val(pd.DataFrame({'A': [1], 'B': [np.nan]}), 'delete')
-    
     with pytest.raises(TypeError):
         missing_val(1, 'delete')
 
