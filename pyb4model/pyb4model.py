@@ -112,46 +112,133 @@ def fit_and_report(model, X, y, Xv, yv, m_type = 'regression'):
     return errors
 
 
-class ForSelect:
-    def __init__(self, model,
-                 min_features=None,
-                 max_features=None,
-                 scoring=None,
-                 cv=None):
-        """
-        Defining Class
-        @params
-        --------
-        model: object            -- sklearn model object
-        min_features: integer    -- number of mininum features to select
-        max_features: integer    -- number of maximum features to select
-        scoring:  string         -- sklearn scoring metric
-        cv: integer              -- k for k-fold-cross-validation
-        @example
-        --------
-        fs = ForSelect
-        """
+def ForSelect(model, data_feature, data_label, min_features=1, max_features=None, problem_type='regression', cv=3):
+    """
+    Implementation of forward selection algorithm.
+    Search and score with mean cross validation score using feature candidates and
+    add features with the best score each step.
+    Uses mean squared error for regression, accuracy for classification problem.
 
-    def fit(self, X, y):
-        """
-        - Implementation of forward selection algorithm.
-        - Search and score with mean cross validation score using feature candidates and
-          add features with the best score each step.
-        - Return dataset with selected features.
-        @params
-        --------
-        X: array       -- training dataset (features)
-        y: array       -- training dataset (labels)
-        @returns
-        --------
-        self          -- with updated self.ftr_
-        @example
-        -------
-        rf = RandomForestClassifier()
-        fs = ForSelect(rf, min_features=2, max_features=5)
-        fs.fit(X_train, y_train)
-        fs.ftr_
-        """
+    @params
+    --------
+    model: object            -- sklearn model object
+    data_feature: object     -- pandas DataFrame object (features/predictors/explanatory variables)
+    data_label: object       -- pandas Series object (labels)
+    min_features: integer    -- number of mininum features to select
+    max_features: integer    -- number of maximum features to select
+    problem_type: string     -- problem type {"classification", "regression"}
+    cv: integer              -- k for k-fold-cross-validation
+
+    @returns
+    --------
+    list                     -- a list of selected column/feature names 
+
+
+    @example
+    --------
+    rf = RandomForestClassifier()
+    selected_features = ForSelect(rf, 
+                                X_train, 
+                                y_train,
+                                min_features=2, 
+                                max_features=5, 
+                                scoring="neg_mean_square",
+                                problem_type="regression", 
+                                cv=4)
+    new_X_train = X_train[selected_features]
+    """
+
+    # Test Input Types
+    if "sklearn" not in str(type(model)):
+        raise TypeError("Your Model should be sklearn model")
+
+    if (type(max_features) != int) and (max_features is not None):
+        raise TypeError("Your max number of features should be an integer")
+
+    if type(min_features) != int:
+        raise TypeError("Your min number of features should be an integer")
+
+    if type(cv) != int:
+        raise TypeError("Your cross validation number should be an integer")
+
+    if not isinstance(data_feature, pd.DataFrame):
+        raise TypeError("Your data_feature must be a pd.DataFrame object")
+
+    if not isinstance(data_label, pd.Series):
+        raise TypeError("Your data_label must be a pd.Series object")
+
+    if problem_type not in ["classification", "regression"]:
+        raise ValueError("Your problem should be 'classification' or 'regression'")
+
+    if data_feature.shape[0] != data_label.shape[0]:
+        raise IndexError("Number of rows are different in training feature and label")
+    
+    print("Input Type Test passed")
+
+    # Create Empty Feature list
+    ftr_ = []
+
+    # Define maximum amount of features
+    if max_features is None:
+        max_features = data_feature.shape[1]
+
+    # total list of features
+    total_ftr = list(range(0, data_feature.shape[1]))
+
+    # define scoring
+    if problem_type=="regression":
+        scoring='neg_mean_squared_error',
+    else:
+        scoring='accuracy'
+    
+    # initialize error score
+    best_score = -np.inf
+
+    i = 0
+
+    while len(ftr_) < max_features:
+        # remove already selected features
+        features_unselected = list(set(total_ftr) - set(ftr_))
+
+        # Initialize potential candidate feature to select
+        candidate = None
+
+        # Iterate
+        for feature in features_unselected:
+            ftr_candidate = ftr_ + [feature]
+            eval_score = np.mean(cross_val_score(model, data_feature[ftr_candidate], data_label, cv=cv, scoring=scoring))
+
+            # If computed error score is better than our current best score
+            if eval_score > best_score:
+                best_score = eval_score  # Overwrite the best_score
+                candidate = feature  # Consider the feature as candidate
+
+        # Add the selected feature
+        if candidate is not None:
+            ftr_.append(candidate)
+
+            # Report Progress
+            i = i + 1
+            if i % 5 == 0:
+                print("{} Iterations Done".format(i))
+                print("current best score: {}".format(best_score))
+
+                print("Current selected features: {}".format(ftr_))
+                print("\n")
+
+        else:
+            # End process
+            print("{} iterations in total".format(i))
+            print("Final selected features: {}".format(ftr_))
+            break
+
+    # End Process
+    print("{} iterations in total".format(i))
+    print("Final selected features: {}".format(ftr_))
+
+    return ftr_
+
+    
 
         
 def feature_splitter(data):
