@@ -1,4 +1,4 @@
-from pyb4model.pyb4model import fit_and_report, missing_val, ForSelect
+from pyb4model.pyb4model import fit_and_report, missing_val, ForSelect, feature_splitter
 from pyb4model import pyb4model
 from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
 from sklearn.model_selection import cross_val_score
@@ -22,6 +22,8 @@ def test_missing_val():
         missing_val(pd.DataFrame({'A': [1], 'B': [np.nan]}), 'delete')
     with pytest.raises(TypeError):
         missing_val(1, 'delete')
+
+
 
 
 #Here we use knn for regression and classification model and iris dataset for testing
@@ -50,8 +52,10 @@ class Test_model(unittest.TestCase):
 
 
 
+
+
 # Test for Feature Selection
-def Test_ForSelect():
+def test_ForSelect():
     knn_c = KNeighborsClassifier()
     X,y = datasets.load_iris(return_X_y = True)
     X = pd.DataFrame(X)
@@ -65,7 +69,7 @@ def Test_ForSelect():
     assert type(result) == list
 
     # Results should have at least one element
-    assert len(result) => 1
+    assert len(result) >= 1
 
     # All elements must be included in the input features
     for ele in result:
@@ -76,27 +80,21 @@ def Test_ForSelect():
 
 
 
-
 def test_feature_splitter():
-  df = {'Name':['John', 'Micheal', 'Lindsey', 'Adam'],
+    df = {'Name':['John', 'Micheal', 'Lindsey', 'Adam'],
         'Age':[40, 22, 39, 15],
         'Height(m)':[1.70, 1.82, 1.77, 1.69],
         'Anual Salary(USD)':[40000, 65000, 70000, 15000],
         'Nationality':['Canada', 'USA', 'Britain', 'Australia'],
         'Marital Status':['Married', 'Single', 'Maried', 'Single']} 
-   df = pd.DataFrame(df)
+    df = pd.DataFrame(df)
 
-  data_categorical_only = {'Name':['John', 'Micheal', 'Lindsey', 'Adam'],
+    data_categorical_only = {'Name':['John', 'Micheal', 'Lindsey', 'Adam'],
         'Nationality':['Canada', 'USA', 'Britain', 'Australia'],
         'Marital Status':['Married', 'Single', 'Maried', 'Single']} 
-  df_cat = pd.DataFrame(data_categorical_only)
-        
-  assert(feature_splitter(df)!=(['Age', 'Height(m)', 'Anual Salary(USD)'],
-    ['Name', 'Nationality', 'Marital Status']))
-
-  assert (type(feature_splitter(df))==tuple
-  assert (len(feature_splitter(df))==2
-  
-  assert feature_splitter(df_cat) == ([], ['Name', 'Nationality', 'Marital Status']), \
-    "Dataframes with only categorical data should return a tuple with emply list for numeric\
-     and a list for categoric variables"
+    df_cat = pd.DataFrame(data_categorical_only)
+    
+    assert feature_splitter(df) ==(['Age', 'Height(m)', 'Anual Salary(USD)'],['Name', 'Nationality', 'Marital Status'])
+    assert type(feature_splitter(df))== tuple
+    assert len(feature_splitter(df))==2
+    assert feature_splitter(df_cat)==([], ['Name', 'Nationality', 'Marital Status'])

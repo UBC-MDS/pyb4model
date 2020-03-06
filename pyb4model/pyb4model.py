@@ -112,65 +112,64 @@ def fit_and_report(model, X, y, Xv, yv, m_type = 'regression'):
     return errors
 
 
-def ForSelect(model,
-            data_feature,
-            data_label,
-            min_features=1,
-            max_features=None,
-            problem_type='regression'
-            cv=3):
-        """
+def ForSelect(model, data_feature, data_label, min_features=1, max_features=None, problem_type='regression', cv=3):
+    """
+    Implementation of forward selection algorithm.
+    Search and score with mean cross validation score using feature candidates and
+    add features with the best score each step.
+    Uses mean squared error for regression, accuracy for classification problem.
 
-        Implementation of forward selection algorithm.
-        Search and score with mean cross validation score using feature candidates and
-        add features with the best score each step.
-        Uses mean squared error for regression, accuracy for classification problem.
+    @params
+    --------
+    model: object            -- sklearn model object
+    data_feature: object     -- pandas DataFrame object (features/predictors/explanatory variables)
+    data_label: object       -- pandas Series object (labels)
+    min_features: integer    -- number of mininum features to select
+    max_features: integer    -- number of maximum features to select
+    problem_type: string     -- problem type {"classification", "regression"}
+    cv: integer              -- k for k-fold-cross-validation
 
-        @params
-        --------
-        model: object            -- sklearn model object
-        data_feature: object     -- pandas DataFrame object (features/predictors/explanatory variables)
-        data_label: object       -- pandas Series object (labels)
-        min_features: integer    -- number of mininum features to select
-        max_features: integer    -- number of maximum features to select
-        problem_type: string     -- problem type {"classification", "regression"}
-        cv: integer              -- k for k-fold-cross-validation
-
-        @returns
-        --------
-        list                     -- a list of selected column/feature names 
+    @returns
+    --------
+    list                     -- a list of selected column/feature names 
 
 
-        @example
-        --------
-        rf = RandomForestClassifier()
-        selected_features = ForSelect(rf, 
-                                    X_train, 
-                                    y_train,
-                                    min_features=2, 
-                                    max_features=5, 
-                                    scoring="neg_mean_square",
-                                    problem_type="regression", 
-                                    cv=4)
-        new_X_train = X_train[selected_features]
-        """
+    @example
+    --------
+    rf = RandomForestClassifier()
+    selected_features = ForSelect(rf, 
+                                X_train, 
+                                y_train,
+                                min_features=2, 
+                                max_features=5, 
+                                scoring="neg_mean_square",
+                                problem_type="regression", 
+                                cv=4)
+    new_X_train = X_train[selected_features]
+    """
 
     # Test Input Types
     if "sklearn" not in str(type(model)):
         raise TypeError("Your Model should be sklearn model")
+
     if (type(max_features) != int) and (max_features is not None):
         raise TypeError("Your max number of features should be an integer")
+
     if type(min_features) != int:
         raise TypeError("Your min number of features should be an integer")
+
     if type(cv) != int:
         raise TypeError("Your cross validation number should be an integer")
+
     if not isinstance(data_feature, pd.DataFrame):
         raise TypeError("Your data_feature must be a pd.DataFrame object")
-    if not isinstance(data_label, pd.DataFrame):
+
+    if not isinstance(data_label, pd.Series):
         raise TypeError("Your data_label must be a pd.Series object")
 
     if problem_type not in ["classification", "regression"]:
         raise ValueError("Your problem should be 'classification' or 'regression'")
+
     if data_feature.shape[0] != data_label.shape[0]:
         raise IndexError("Number of rows are different in training feature and label")
     
@@ -181,10 +180,10 @@ def ForSelect(model,
 
     # Define maximum amount of features
     if max_features is None:
-        max_features = X.shape[1]
+        max_features = data_feature.shape[1]
 
     # total list of features
-    total_ftr = list(range(0, X.shape[1]))
+    total_ftr = list(range(0, data_feature.shape[1]))
 
     # define scoring
     if problem_type=="regression":
@@ -207,11 +206,7 @@ def ForSelect(model,
         # Iterate
         for feature in features_unselected:
             ftr_candidate = ftr_ + [feature]
-            eval_score = np.mean(cross_val_score(model,
-                                                    X[:, ftr_candidate],
-                                                    y,
-                                                    cv=cv,
-                                                    scoring=scoring))
+            eval_score = np.mean(cross_val_score(model, data_feature[ftr_candidate], data_label, cv=cv, scoring=scoring))
 
             # If computed error score is better than our current best score
             if eval_score > best_score:
