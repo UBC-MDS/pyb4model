@@ -11,6 +11,7 @@ pandas = "^1.0"
 sklearn = "^0.0.0"
 numpy = "^1.18.1"
 pytest = "^5.3.5"
+unittest = "^0.0.0"
 
 [tool.poetry.dev-dependencies]
 pytest-cov = "^2.8"
