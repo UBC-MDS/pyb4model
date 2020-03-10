@@ -56,6 +56,11 @@ class Test_model(unittest.TestCase):
 
 # Test for Feature Selection
 def test_ForSelect():
+"""
+Test function for Feature Selection.
+Checks the return type is a list, not empty and elements in the results are part of the input feature names
+"""
+
     knn_c = KNeighborsClassifier()
     X,y = datasets.load_iris(return_X_y = True)
     X = pd.DataFrame(X)

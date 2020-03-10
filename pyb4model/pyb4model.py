@@ -7,6 +7,7 @@ import pandas as pd
 def missing_val(df, method):
     """
     Handles missing values.
+
     Parameters
     ----------
     df : pandas dataframe
@@ -16,11 +17,14 @@ def missing_val(df, method):
         'delete', deletes row with missing values
         'mean', replaces missing values with the averages
         'knn', replaces missing values with nearest neighbour
+
+        
     Returns
     -------
     pandas dataframe
         The dataframe without missing values.
-    Examples
+
+    Example
     --------
     >>> df = pd.DataFrame(np.array([[1, 2, 3], [NaN, 5, 6], [7, 8, 9]]),
                    columns=['a', 'b', 'c'])
@@ -65,7 +69,7 @@ def fit_and_report(model, X, y, Xv, yv, m_type = 'regression'):
     """
     fits a model and returns the train and validation errors as a list
     
-    Arguments
+    Parameters
     ---------     
     model -- sklearn classifier model
         The sklearn model
@@ -80,6 +84,7 @@ def fit_and_report(model, X, y, Xv, yv, m_type = 'regression'):
     m_type-- str 
         The type for calculating error (default = 'regression') 
     
+
     Returns
     -------
     errors -- list
@@ -119,7 +124,7 @@ def ForSelect(model, data_feature, data_label, min_features=1, max_features=None
     add features with the best score each step.
     Uses mean squared error for regression, accuracy for classification problem.
 
-    @params
+    Parameters
     --------
     model: object            -- sklearn model object
     data_feature: object     -- pandas DataFrame object (features/predictors/explanatory variables)
@@ -129,12 +134,13 @@ def ForSelect(model, data_feature, data_label, min_features=1, max_features=None
     problem_type: string     -- problem type {"classification", "regression"}
     cv: integer              -- k for k-fold-cross-validation
 
-    @returns
+
+    Returns
     --------
     list                     -- a list of selected column/feature names 
 
 
-    @example
+    Example
     --------
     rf = RandomForestClassifier()
     selected_features = ForSelect(rf, 
@@ -242,15 +248,21 @@ def ForSelect(model, data_feature, data_label, min_features=1, max_features=None
 
         
 def feature_splitter(data):
-    """ Splits dataset column names into a tuple of categorical and numerical lists
+    """ 
+    Splits dataset column names into a tuple of categorical and numerical lists
+
+
     Parameters
     ----------
     x : DateFrame
+
+
     Returns
     -------
     tuple: 
         tuple of two lists
     
+
     Example
     -------
     >>> feature_splitter(data)
