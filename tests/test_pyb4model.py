@@ -93,6 +93,11 @@ def test_ForSelect():
 
 
 def test_feature_splitter():
+    """
+    Test function for feature splitter
+    This function checks if input data if data frame, then splits the data into two parts:
+    Which is a tuple containing a list for numeric features and a tupple with numeric features.
+    """
     df = {'Name':['John', 'Micheal', 'Lindsey', 'Adam'],
         'Age':[40, 22, 39, 15],
         'Height(m)':[1.70, 1.82, 1.77, 1.69],
