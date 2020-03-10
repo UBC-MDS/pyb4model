@@ -10,6 +10,10 @@ import pytest
 import numpy as np
 
 def test_missing_val():
+    """
+    Test missing_val function
+    Check for proper inputs and outputs, throw error otherwise
+    """
     df = pd.DataFrame({'A': [1, np.nan, 2, 1, 3], 'B': [np.nan, 4, 5, 6, 3]})
     assert len(missing_val(df, 'delete'))==3, 'listwise deletion should remove rows with missing values'
     assert missing_val(df, 'mean').iloc[:, 1][0]==4.5, 'mean imputation should replace missing value with average'
@@ -60,11 +64,10 @@ class Test_model(unittest.TestCase):
 
 # Test for Feature Selection
 def test_ForSelect():
-"""
-Test function for Feature Selection.
-Checks the return type is a list, not empty and elements in the results are part of the input feature names
-"""
-
+    """
+    Test function for Feature Selection.
+    Checks the return type is a list, not empty and elements in the results are part of the input feature names
+    """
     knn_c = KNeighborsClassifier()
     X,y = datasets.load_iris(return_X_y = True)
     X = pd.DataFrame(X)
