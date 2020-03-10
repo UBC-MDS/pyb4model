@@ -7,6 +7,7 @@ import pandas as pd
 def missing_val(df, method):
     """
     Handles missing values.
+    
     Parameters
     ----------
     df : pandas dataframe
@@ -16,10 +17,12 @@ def missing_val(df, method):
         'delete', deletes row with missing values
         'mean', replaces missing values with the averages
         'knn', replaces missing values with nearest neighbour
+    
     Returns
     -------
     pandas dataframe
         The dataframe without missing values.
+    
     Examples
     --------
     >>> df = pd.DataFrame(np.array([[1, 2, 3], [NaN, 5, 6], [7, 8, 9]]),
@@ -65,7 +68,7 @@ def fit_and_report(model, X, y, Xv, yv, m_type = 'regression'):
     """
     fits a model and returns the train and validation errors as a list
     
-    Arguments
+    Parameters
     ---------     
     model -- sklearn classifier model
         The sklearn model
@@ -85,6 +88,17 @@ def fit_and_report(model, X, y, Xv, yv, m_type = 'regression'):
     errors -- list
         A list containing train (on X, y) and validation (on Xv, yv) errors
     
+    Examples
+    --------
+    iris = datasets.load_iris(return_X_y = True)
+    knn_c = KNeighborsClassifier()
+    knn_r = KNeighborsRegressor()
+    X = iris[0][1:100]
+    y =iris[1][1:100]
+    Xv = iris[0][100:]
+    yv = iris[1][100:]
+    result_r = fit_and_report(knn_r, X,y, Xv,yv, 'regression')
+
     """
     if not isinstance(m_type, str):
         raise TypeError('Input should be a string')
@@ -119,7 +133,7 @@ def ForSelect(model, data_feature, data_label, min_features=1, max_features=None
     add features with the best score each step.
     Uses mean squared error for regression, accuracy for classification problem.
 
-    @params
+    Parameters
     --------
     model: object            -- sklearn model object
     data_feature: object     -- pandas DataFrame object (features/predictors/explanatory variables)
@@ -129,12 +143,12 @@ def ForSelect(model, data_feature, data_label, min_features=1, max_features=None
     problem_type: string     -- problem type {"classification", "regression"}
     cv: integer              -- k for k-fold-cross-validation
 
-    @returns
+    Returns
     --------
     list                     -- a list of selected column/feature names 
 
 
-    @example
+    Example
     --------
     rf = RandomForestClassifier()
     selected_features = ForSelect(rf, 
@@ -243,9 +257,11 @@ def ForSelect(model, data_feature, data_label, min_features=1, max_features=None
         
 def feature_splitter(data):
     """ Splits dataset column names into a tuple of categorical and numerical lists
+    
     Parameters
     ----------
     x : DateFrame
+   
     Returns
     -------
     tuple: 
