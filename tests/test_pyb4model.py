@@ -87,7 +87,24 @@ def test_ForSelect():
     for ele in result:
         assert ele in X.columns
     
+    # Ensure invalid input raises error
+    with pytest.raises(ValueError):
+        trial = ForSelect(knn_c, X, y, problem_type=3, cv=cv)
 
+    with pytest.raises(TypeError):
+        trial = ForSelect(knn_c, X, y, problem_type=prob, cv="3")
+
+    with pytest.raises(TypeError):
+        trial = ForSelect("Hello", X, y, problem_type=prob, cv=cv)
+
+    with pytest.raises(TypeError):
+        trial = ForSelect(knn_c, X, y, max_features="5", problem_type=prob, cv=cv)
+
+    with pytest.raises(TypeError):
+        trial = ForSelect(knn_c, X, pd.DataFrame(y), problem_type=prob, cv=cv)
+
+    with pytest.raises(IndexError):
+        trial = ForSelect(knn_c, X, y[:100], problem_type=prob, cv=cv)
 
 
 
