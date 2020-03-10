@@ -29,6 +29,10 @@ def test_missing_val():
 #Here we use knn for regression and classification model and iris dataset for testing
 class Test_model(unittest.TestCase):
     def test_fit_and_report(self):
+        """
+        Test function for fit_and_report.
+        Check if the return length is correct, if the result is in correct range, if error is raised successfully
+        """
         iris = datasets.load_iris(return_X_y = True)
         knn_c = KNeighborsClassifier()
         knn_r = KNeighborsRegressor()
