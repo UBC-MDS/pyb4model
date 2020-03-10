@@ -7,7 +7,7 @@ import pandas as pd
 def missing_val(df, method):
     """
     Handles missing values.
-    
+
     Parameters
     ----------
     df : pandas dataframe
@@ -17,12 +17,13 @@ def missing_val(df, method):
         'delete', deletes row with missing values
         'mean', replaces missing values with the averages
         'knn', replaces missing values with nearest neighbour
-    
+
     Returns
     -------
     pandas dataframe
         The dataframe without missing values.
-    
+
+
     Examples
     --------
     >>> df = pd.DataFrame(np.array([[1, 2, 3], [NaN, 5, 6], [7, 8, 9]]),
@@ -83,6 +84,7 @@ def fit_and_report(model, X, y, Xv, yv, m_type = 'regression'):
     m_type-- str 
         The type for calculating error (default = 'regression') 
     
+
     Returns
     -------
     errors -- list
@@ -142,6 +144,7 @@ def ForSelect(model, data_feature, data_label, min_features=1, max_features=None
     max_features: integer    -- number of maximum features to select
     problem_type: string     -- problem type {"classification", "regression"}
     cv: integer              -- k for k-fold-cross-validation
+
 
     Returns
     --------
@@ -256,17 +259,21 @@ def ForSelect(model, data_feature, data_label, min_features=1, max_features=None
 
         
 def feature_splitter(data):
-    """ Splits dataset column names into a tuple of categorical and numerical lists
-    
+    """ 
+    Splits dataset column names into a tuple of categorical and numerical lists
+
+
     Parameters
     ----------
     x : DateFrame
-   
+
+
     Returns
     -------
     tuple: 
         tuple of two lists
     
+
     Example
     -------
     >>> feature_splitter(data)
