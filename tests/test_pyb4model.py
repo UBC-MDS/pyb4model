@@ -53,17 +53,19 @@ class Test_model(unittest.TestCase):
         self.assertRaises(TypeError, fit_and_report, knn_r, X, y, Xv, yv, 1)
         self.assertRaises(TypeError, fit_and_report, 1, X, y, Xv, yv, 'regression')
         self.assertRaises(TypeError, fit_and_report, knn_r, 1,y, Xv, yv, 'regression')
-
+        self.assertRaises(TypeError, fit_and_report, knn_r, X, y, 1, yv, 'regression')
+        self.assertRaises(TypeError, fit_and_report, knn_r, X, y, Xv, 1, 'regression')
+        
 
 
 
 
 # Test for Feature Selection
 def test_ForSelect():
-"""
-Test function for Feature Selection.
-Checks the return type is a list, not empty and elements in the results are part of the input feature names
-"""
+    """
+    Test function for Feature Selection.
+    Checks the return type is a list, not empty and elements in the results are part of the input feature names
+    """
 
     knn_c = KNeighborsClassifier()
     X,y = datasets.load_iris(return_X_y = True)
@@ -106,4 +108,4 @@ def test_feature_splitter():
     assert feature_splitter(df) ==(['Age', 'Height(m)', 'Anual Salary(USD)'],['Name', 'Nationality', 'Marital Status'])
     assert type(feature_splitter(df))== tuple
     assert len(feature_splitter(df))==2
-    assert feature_splitter(df_cat)==([], ['Name', 'Nationality', 'Marital Status'])
+    assert feature_splitter(df_cat)==([], ['Name', 'Nationality', 'Marital Status']) 
