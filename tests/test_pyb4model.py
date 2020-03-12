@@ -63,7 +63,15 @@ class Test_model(unittest.TestCase):
         self.assertTrue(0 <= result_c[0] <= 1)
         self.assertTrue(0 <= result_c[1] <= 1)
         # test for exception
-        self.assertRaises(TypeError, fit_and_report, knn_r, X, y, Xv, yv, 1)
+        self.assertRaises(
+            TypeError,
+            fit_and_report,
+            knn_r,
+            X,
+            y,
+            Xv,
+            yv,
+            1)
         self.assertRaises(
             TypeError,
             fit_and_report,
@@ -83,8 +91,7 @@ class Test_model(unittest.TestCase):
             yv,
             'regression')
 
-
-# Test for Feature Selection
+#Test for Feature Selection
 def test_ForSelect():
     """
     Test function for Feature Selection.
