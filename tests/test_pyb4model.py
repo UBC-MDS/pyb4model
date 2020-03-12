@@ -10,6 +10,10 @@ import pytest
 import numpy as np
 
 def test_missing_val():
+    """
+    Test missing_val function
+    Check for proper inputs and outputs, throw error otherwise
+    """
     df = pd.DataFrame({'A': [1, np.nan, 2, 1, 3], 'B': [np.nan, 4, 5, 6, 3]})
     assert len(missing_val(df, 'delete'))==3, 'listwise deletion should remove rows with missing values'
     assert missing_val(df, 'mean').iloc[:, 1][0]==4.5, 'mean imputation should replace missing value with average'
@@ -66,7 +70,6 @@ def test_ForSelect():
     Test function for Feature Selection.
     Checks the return type is a list, not empty and elements in the results are part of the input feature names
     """
-
     knn_c = KNeighborsClassifier()
     X,y = datasets.load_iris(return_X_y = True)
     X = pd.DataFrame(X)
@@ -86,12 +89,34 @@ def test_ForSelect():
     for ele in result:
         assert ele in X.columns
     
+    # Ensure invalid input raises error
+    with pytest.raises(ValueError):
+        trial = ForSelect(knn_c, X, y, problem_type=3, cv=cv)
 
+    with pytest.raises(TypeError):
+        trial = ForSelect(knn_c, X, y, problem_type=prob, cv="3")
+
+    with pytest.raises(TypeError):
+        trial = ForSelect("Hello", X, y, problem_type=prob, cv=cv)
+
+    with pytest.raises(TypeError):
+        trial = ForSelect(knn_c, X, y, max_features="5", problem_type=prob, cv=cv)
+
+    with pytest.raises(TypeError):
+        trial = ForSelect(knn_c, X, pd.DataFrame(y), problem_type=prob, cv=cv)
+
+    with pytest.raises(IndexError):
+        trial = ForSelect(knn_c, X, y[:100], problem_type=prob, cv=cv)
 
 
 
 
 def test_feature_splitter():
+    """
+    Test function for feature splitter
+    This function checks if input data if data frame, then splits the data into two parts:
+    Which is a tuple containing a list for numeric features and a tupple with numeric features.
+    """
     df = {'Name':['John', 'Micheal', 'Lindsey', 'Adam'],
         'Age':[40, 22, 39, 15],
         'Height(m)':[1.70, 1.82, 1.77, 1.69],
@@ -108,4 +133,4 @@ def test_feature_splitter():
     assert feature_splitter(df) ==(['Age', 'Height(m)', 'Anual Salary(USD)'],['Name', 'Nationality', 'Marital Status'])
     assert type(feature_splitter(df))== tuple
     assert len(feature_splitter(df))==2
-    assert feature_splitter(df_cat)==([], ['Name', 'Nationality', 'Marital Status']) 
+    assert feature_splitter(df_cat)==([], ['Name', 'Nationality', 'Marital Status'])
