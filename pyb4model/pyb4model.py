@@ -1,8 +1,9 @@
 from sklearn.metrics import mean_squared_error
 from sklearn.impute import KNNImputer
 from sklearn.model_selection import cross_val_score
-import numpy as  np
+import numpy as np
 import pandas as pd
+
 
 def missing_val(df, method):
     """
@@ -34,62 +35,69 @@ def missing_val(df, method):
     1  1  5  6
     2  7  8  9
     """
-    
+
     # tests
-    
+
     if method not in ['delete', 'mean', 'knn']:
-        raise ValueError('valid methods only include "delete", "mean", and "regression"')
-    
-    if not isinstance(df, pd.DataFrame) and not isinstance(df, np.ndarray) and not isinstance(df, pd.Series):
+        raise ValueError(
+            'valid methods only include "delete", "mean", and "regression"')
+
+    if not isinstance(
+            df,
+            pd.DataFrame) and not isinstance(
+            df,
+            np.ndarray) and not isinstance(
+                df,
+            pd.Series):
         raise TypeError('df must be a dataframe, series, or array')
-        
-    if df.empty: # edge case
+
+    if df.empty:  # edge case
         raise ValueError('dataframe cannot be empty')
-        
-    for i in range(len(df.columns)): # edge case
-        if df.iloc[:,i].isnull().sum()==len(df):
+
+    for i in range(len(df.columns)):  # edge case
+        if df.iloc[:, i].isnull().sum() == len(df):
             raise ValueError('dataframe cannot columns with all NaN values')
-    
+
     # function
-    
-    if method=='delete':
+
+    if method == 'delete':
         df = df.dropna()
-    
-    if method=='mean':
+
+    if method == 'mean':
         df = df.fillna(df.mean())
-        
-    if method=='knn':
+
+    if method == 'knn':
         imputer = KNNImputer(n_neighbors=2, weights="uniform")
         df = pd.DataFrame(imputer.fit_transform(df))
-    
+
     return df
 
 
-def fit_and_report(model, X, y, Xv, yv, m_type = 'regression'):
+def fit_and_report(model, X, y, Xv, yv, m_type='regression'):
     """
     fits a model and returns the train and validation errors as a list
-    
+
     Parameters
-    ---------     
+    ---------
     model -- sklearn classifier model
         The sklearn model
-    X -- numpy.ndarray        
+    X -- numpy.ndarray
         The features of the training set
     y -- numpy.ndarray
         The target of the training set
-    Xv -- numpy.ndarray        
+    Xv -- numpy.ndarray
         The feature of the validation set
     yv -- numpy.ndarray
-        The target of the validation set       
-    m_type-- str 
-        The type for calculating error (default = 'regression') 
-    
+        The target of the validation set
+    m_type-- str
+        The type for calculating error (default = 'regression')
+
 
     Returns
     -------
     errors -- list
         A list containing train (on X, y) and validation (on Xv, yv) errors
-    
+
     Examples
     --------
     iris = datasets.load_iris(return_X_y = True)
@@ -104,41 +112,53 @@ def fit_and_report(model, X, y, Xv, yv, m_type = 'regression'):
     """
     if not isinstance(m_type, str):
         raise TypeError('Input should be a string')
-    
-    if not "sklearn" in str(type(model)):
+
+    if "sklearn" not in str(type(model)):
         raise TypeError('model should be from sklearn package')
-        
-    if not "numpy.ndarray" in str(type(X)):
+
+    if "numpy.ndarray" not in str(type(X)):
         raise TypeError('Input X should be a numpy array')
-    
-    if not "numpy.ndarray" in str(type(y)):
+
+    if "numpy.ndarray" not in str(type(y)):
         raise TypeError('Input y should be a numpy array')
-        
-    if not "numpy.ndarray" in str(type(Xv)):
+
+    if "numpy.ndarray" not in str(type(Xv)):
         raise TypeError('Input Xv should be a numpy array')
-        
-    if not "numpy.ndarray" in str(type(yv)):
+
+    if "numpy.ndarray" not in str(type(yv)):
         raise TypeError('Input yv should be a numpy array')
-        
+
     model.fit(X, y)
     if m_type.lower().startswith('regress'):
-        errors = [mean_squared_error(y, model.predict(X)), mean_squared_error(yv, model.predict(Xv))]
+        errors = [
+            mean_squared_error(
+                y, model.predict(X)), mean_squared_error(
+                yv, model.predict(Xv))]
     if m_type.lower().startswith('classif'):
-        errors = [1 - model.score(X,y), 1 - model.score(Xv,yv)]        
+        errors = [1 - model.score(X, y), 1 - model.score(Xv, yv)]
     return errors
 
 
-def ForSelect(model, data_feature, data_label, min_features=1, max_features=None, problem_type='regression', cv=3):
+def ForSelect(
+        model,
+        data_feature,
+        data_label,
+        min_features=1,
+        max_features=None,
+        problem_type='regression',
+        cv=3):
     """
     Implementation of forward selection algorithm.
-    Search and score with mean cross validation score using feature candidates and
+    Search and score with mean cross validation score
+    using feature candidates and
     add features with the best score each step.
-    Uses mean squared error for regression, accuracy for classification problem.
+    Uses mean squared error for regression,
+    accuracy for classification problem.
 
     Parameters
     --------
     model: object            -- sklearn model object
-    data_feature: object     -- pandas DataFrame object (features/predictors/explanatory variables)
+    data_feature: object     -- pandas DataFrame object (features/predictors)
     data_label: object       -- pandas Series object (labels)
     min_features: integer    -- number of mininum features to select
     max_features: integer    -- number of maximum features to select
@@ -148,19 +168,19 @@ def ForSelect(model, data_feature, data_label, min_features=1, max_features=None
 
     Returns
     --------
-    list                     -- a list of selected column/feature names 
+    list                     -- a list of selected column/feature names
 
 
     Example
     --------
     rf = RandomForestClassifier()
-    selected_features = ForSelect(rf, 
-                                X_train, 
+    selected_features = ForSelect(rf,
+                                X_train,
                                 y_train,
-                                min_features=2, 
-                                max_features=5, 
+                                min_features=2,
+                                max_features=5,
                                 scoring="neg_mean_square",
-                                problem_type="regression", 
+                                problem_type="regression",
                                 cv=4)
     new_X_train = X_train[selected_features]
     """
@@ -169,13 +189,13 @@ def ForSelect(model, data_feature, data_label, min_features=1, max_features=None
     if "sklearn" not in str(type(model)):
         raise TypeError("Your Model should be sklearn model")
 
-    if (type(max_features) != int) and (max_features is not None):
+    if (not isinstance(max_features, int)) and (max_features is not None):
         raise TypeError("Your max number of features should be an integer")
 
-    if type(min_features) != int:
+    if not isinstance(min_features, int):
         raise TypeError("Your min number of features should be an integer")
 
-    if type(cv) != int:
+    if not isinstance(cv, int):
         raise TypeError("Your cross validation number should be an integer")
 
     if not isinstance(data_feature, pd.DataFrame):
@@ -185,11 +205,13 @@ def ForSelect(model, data_feature, data_label, min_features=1, max_features=None
         raise TypeError("Your data_label must be a pd.Series object")
 
     if problem_type not in ["classification", "regression"]:
-        raise ValueError("Your problem should be 'classification' or 'regression'")
+        raise ValueError(
+            "Your problem should be 'classification' or 'regression'")
 
     if data_feature.shape[0] != data_label.shape[0]:
-        raise IndexError("Number of rows are different in training feature and label")
-    
+        raise IndexError(
+            "Number of rows are different in training feature and label")
+
     print("Input Type Test passed")
 
     # Create Empty Feature list
@@ -203,11 +225,11 @@ def ForSelect(model, data_feature, data_label, min_features=1, max_features=None
     total_ftr = list(range(0, data_feature.shape[1]))
 
     # define scoring
-    if problem_type=="regression":
-        scoring='neg_mean_squared_error',
+    if problem_type == "regression":
+        scoring = 'neg_mean_squared_error',
     else:
-        scoring='accuracy'
-    
+        scoring = 'accuracy'
+
     # initialize error score
     best_score = -np.inf
 
@@ -223,7 +245,13 @@ def ForSelect(model, data_feature, data_label, min_features=1, max_features=None
         # Iterate
         for feature in features_unselected:
             ftr_candidate = ftr_ + [feature]
-            eval_score = np.mean(cross_val_score(model, data_feature[ftr_candidate], data_label, cv=cv, scoring=scoring))
+            eval_score = np.mean(
+                cross_val_score(
+                    model,
+                    data_feature[ftr_candidate],
+                    data_label,
+                    cv=cv,
+                    scoring=scoring))
 
             # If computed error score is better than our current best score
             if eval_score > best_score:
@@ -255,11 +283,9 @@ def ForSelect(model, data_feature, data_label, min_features=1, max_features=None
 
     return ftr_
 
-    
 
-        
 def feature_splitter(data):
-    """ 
+    """
     Splits dataset column names into a tuple of categorical and numerical lists
 
 
@@ -270,9 +296,9 @@ def feature_splitter(data):
 
     Returns
     -------
-    tuple: 
+    tuple:
         tuple of two lists
-    
+
 
     Example
     -------
@@ -280,21 +306,22 @@ def feature_splitter(data):
     ([categorical:],[numerical: ])
     """
     # Identify the categorical and numeric columns
-    assert data.shape[1]>1 and data.shape[0]>1, "Your data file in not valid, dataframe should have at least\
-                                                one column and one row"    
+    assert data.shape[1] > 1 and data.shape[0] > 1, "Your data file in not valid, dataframe should have at least\
+                                                one column and one row"
     if not isinstance(data, pd.DataFrame):
         raise Exception('the input data should be a data frame')
-        
+
     d_types = data.dtypes
     categorical = []
     numerical = []
-    
+
     for data_type, features in zip(d_types, d_types.index):
         if data_type == "object":
             categorical.append(features)
         else:
             numerical.append(features)
-            
-    assert len(numerical) + len(categorical)==data.shape[1], "categorical and numerical variable list must match\
-                                                                number of columns in the data frame"
+
+    assert len(numerical) + \
+        len(categorical) == data.shape[1], "categorical and numerical variable list must match\
+                                                                df shape"
     return numerical, categorical
