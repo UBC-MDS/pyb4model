@@ -1,0 +1,243 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>pyb4model package &#8212; pyb4model 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="pyb4model-package">
+<h1>pyb4model package<a class="headerlink" href="#pyb4model-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-pyb4model.pyb4model">
+<span id="pyb4model-pyb4model-module"></span><h2>pyb4model.pyb4model module<a class="headerlink" href="#module-pyb4model.pyb4model" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pyb4model.pyb4model.ForSelect">
+<code class="sig-prename descclassname">pyb4model.pyb4model.</code><code class="sig-name descname">ForSelect</code><span class="sig-paren">(</span><em class="sig-param">model</em>, <em class="sig-param">data_feature</em>, <em class="sig-param">data_label</em>, <em class="sig-param">min_features=1</em>, <em class="sig-param">max_features=None</em>, <em class="sig-param">problem_type='regression'</em>, <em class="sig-param">cv=3</em><span class="sig-paren">)</span><a class="headerlink" href="#pyb4model.pyb4model.ForSelect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implementation of forward selection algorithm.
+Search and score with mean cross validation score using feature candidates and
+add features with the best score each step.
+Uses mean squared error for regression, accuracy for classification problem.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>object            -- sklearn model object</em>) – </p></li>
+<li><p><strong>data_feature</strong> (<em>object     -- pandas DataFrame object</em><em> (</em><em>features/predictors/explanatory variables</em><em>)</em>) – </p></li>
+<li><p><strong>data_label</strong> (<em>object       -- pandas Series object</em><em> (</em><em>labels</em><em>)</em>) – </p></li>
+<li><p><strong>min_features</strong> (<em>integer    -- number of mininum features to select</em>) – </p></li>
+<li><p><strong>max_features</strong> (<em>integer    -- number of maximum features to select</em>) – </p></li>
+<li><p><strong>problem_type</strong> (<em>string     -- problem type {&quot;classification&quot;</em><em>, </em><em>&quot;regression&quot;}</em>) – </p></li>
+<li><p><strong>cv</strong> (<em>integer              -- k for k-fold-cross-validation</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list                     – a list of selected column/feature names</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<p>rf = RandomForestClassifier()
+selected_features = ForSelect(rf,</p>
+<blockquote>
+<div><p>X_train,
+y_train,
+min_features=2,
+max_features=5,
+scoring=”neg_mean_square”,
+problem_type=”regression”,
+cv=4)</p>
+</div></blockquote>
+<p>new_X_train = X_train[selected_features]</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyb4model.pyb4model.feature_splitter">
+<code class="sig-prename descclassname">pyb4model.pyb4model.</code><code class="sig-name descname">feature_splitter</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#pyb4model.pyb4model.feature_splitter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Splits dataset column names into a tuple of categorical and numerical lists</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>DateFrame</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>tuple of two lists</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">feature_splitter</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="go">([categorical:],[numerical: ])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyb4model.pyb4model.fit_and_report">
+<code class="sig-prename descclassname">pyb4model.pyb4model.</code><code class="sig-name descname">fit_and_report</code><span class="sig-paren">(</span><em class="sig-param">model</em>, <em class="sig-param">X</em>, <em class="sig-param">y</em>, <em class="sig-param">Xv</em>, <em class="sig-param">yv</em>, <em class="sig-param">m_type='regression'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyb4model.pyb4model.fit_and_report" title="Permalink to this definition">¶</a></dt>
+<dd><p>fits a model and returns the train and validation errors as a list</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>-- sklearn classifier model</strong> (<em>model</em>) – The sklearn model</p></li>
+<li><p><strong>-- numpy.ndarray</strong> (<em>yv</em>) – The features of the training set</p></li>
+<li><p><strong>-- numpy.ndarray</strong> – The target of the training set</p></li>
+<li><p><strong>-- numpy.ndarray</strong> – The feature of the validation set</p></li>
+<li><p><strong>-- numpy.ndarray</strong> – The target of the validation set</p></li>
+<li><p><strong>str</strong> (<em>m_type--</em>) – The type for calculating error (default = ‘regression’)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list containing train (on X, y) and validation (on Xv, yv) errors</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>errors – list</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>iris = datasets.load_iris(return_X_y = True)
+knn_c = KNeighborsClassifier()
+knn_r = KNeighborsRegressor()
+X = iris[0][1:100]
+y =iris[1][1:100]
+Xv = iris[0][100:]
+yv = iris[1][100:]
+result_r = fit_and_report(knn_r, X,y, Xv,yv, ‘regression’)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyb4model.pyb4model.missing_val">
+<code class="sig-prename descclassname">pyb4model.pyb4model.</code><code class="sig-name descname">missing_val</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">method</em><span class="sig-paren">)</span><a class="headerlink" href="#pyb4model.pyb4model.missing_val" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles missing values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas dataframe</em>) – Dataframe with missing values.</p></li>
+<li><p><strong>method</strong> (<em>string</em>) – Method to handle missing values.
+‘delete’, deletes row with missing values
+‘mean’, replaces missing values with the averages
+‘knn’, replaces missing values with nearest neighbour</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The dataframe without missing values.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas dataframe</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="n">NaN</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]]),</span>
+<span class="go">               columns=[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">missing_val</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s1">&#39;last&#39;</span><span class="p">)</span>
+<span class="go">   a  b  c</span>
+<span class="go">0  1  2  3</span>
+<span class="go">1  1  5  6</span>
+<span class="go">2  7  8  9</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyb4model">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-pyb4model" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">pyb4model</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Sakariya Aynashe, Andrea Lee, Jaekun Lee, Xinwen Wang.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/source/pyb4model.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
