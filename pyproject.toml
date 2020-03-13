@@ -4,6 +4,10 @@ version = "0.1.0"
 description = "A python package to preprocess data and conduct machine learning!"
 authors = ["Sakariya Aynashe", "Andrea Lee", "Jaekun Lee", "Xinwen Wang"]
 license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/UBC-MDS/pyb4model"
+repository = "https://github.com/UBC-MDS/pyb4model"
+documentation = 'https://pyb4model.readthedocs.io'
 
 [tool.poetry.dependencies]
 python = "^3.7"
@@ -11,7 +15,6 @@ pandas = "^1.0"
 sklearn = "^0.0.0"
 numpy = "^1.18.1"
 pytest = "^5.3.5"
-unittest = "^0.0.0"
 
 [tool.poetry.dev-dependencies]
 pytest-cov = "^2.8"

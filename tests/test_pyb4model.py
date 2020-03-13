@@ -1,11 +1,7 @@
 from pyb4model.pyb4model import fit_and_report, \
                                 missing_val, ForSelect, feature_splitter
-from pyb4model import pyb4model
 from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
-from sklearn.model_selection import cross_val_score
-from sklearn.metrics import mean_squared_error
 import sklearn.datasets as datasets
-import unittest
 import pandas as pd
 import pytest
 import numpy as np
@@ -39,51 +35,51 @@ def test_missing_val():
 
 # Here we use knn for regression and classification model and iris dataset
 # for testing
-class Test_model(unittest.TestCase):
-    def test_fit_and_report(self):
-        """
-        Test function for fit_and_report.
-        Check if the return length is correct,\
-        if the result is in correct range,if error is raised successfully
-        """
-        iris = datasets.load_iris(return_X_y=True)
-        knn_c = KNeighborsClassifier()
-        knn_r = KNeighborsRegressor()
-        X = iris[0][1:100]
-        y = iris[1][1:100]
-        Xv = iris[0][100:]
-        yv = iris[1][100:]
-        result_r = fit_and_report(knn_r, X, y, Xv, yv, 'regression')
-        result_c = fit_and_report(knn_c, X, y, Xv, yv, 'classification')
-        # test for output
-        self.assertTrue(len(result_r) == 2)
-        self.assertTrue(len(result_c) == 2)
-        self.assertTrue(0 <= result_r[0] <= 1)
-        self.assertTrue(0 <= result_r[1] <= 1)
-        self.assertTrue(0 <= result_c[0] <= 1)
-        self.assertTrue(0 <= result_c[1] <= 1)
-        # test for exception
-        self.assertRaises(
-            TypeError,
-            fit_and_report,
+def test_fit_and_report():
+    """
+    Test function for fit_and_report.
+    Check if the return length is correct,\
+    if the result is in correct range,if error is raised successfully
+    """
+    iris = datasets.load_iris(return_X_y=True)
+    knn_c = KNeighborsClassifier()
+    knn_r = KNeighborsRegressor()
+    X = iris[0][1:100]
+    y = iris[1][1:100]
+    Xv = iris[0][100:]
+    yv = iris[1][100:]
+    result_r = fit_and_report(knn_r, X, y, Xv, yv, 'regression')
+    result_c = fit_and_report(knn_c, X, y, Xv, yv, 'classification')
+
+    # test for output
+    assert len(result_r) == 2
+    assert len(result_c) == 2
+    assert 0 <= result_r[0] and result_r[0] <= 1
+    assert 0 <= result_r[1] and result_r[1] <= 1
+    assert 0 <= result_c[0] and result_c[0] <= 1
+    assert 0 <= result_c[1] and result_c[1] <= 1
+
+    # test for exception
+    with pytest.raises(TypeError):
+        fit_and_report(
             knn_r,
             X,
             y,
             Xv,
             yv,
             1)
-        self.assertRaises(
-            TypeError,
-            fit_and_report,
+
+    with pytest.raises(TypeError):
+        fit_and_report(
             1,
             X,
             y,
             Xv,
             yv,
             'regression')
-        self.assertRaises(
-            TypeError,
-            fit_and_report,
+
+    with pytest.raises(TypeError):
+        fit_and_report(
             knn_r,
             1,
             y,
@@ -119,16 +115,16 @@ def test_ForSelect():
 
     # Ensure invalid input raises error
     with pytest.raises(ValueError):
-        trial = ForSelect(knn_c, X, y, problem_type=3, cv=cv)
+        ForSelect(knn_c, X, y, problem_type=3, cv=cv)
 
     with pytest.raises(TypeError):
-        trial = ForSelect(knn_c, X, y, problem_type=prob, cv="3")
+        ForSelect(knn_c, X, y, problem_type=prob, cv="3")
 
     with pytest.raises(TypeError):
-        trial = ForSelect("Hello", X, y, problem_type=prob, cv=cv)
+        ForSelect("Hello", X, y, problem_type=prob, cv=cv)
 
     with pytest.raises(TypeError):
-        trial = ForSelect(
+        ForSelect(
             knn_c,
             X,
             y,
@@ -137,10 +133,10 @@ def test_ForSelect():
             cv=cv)
 
     with pytest.raises(TypeError):
-        trial = ForSelect(knn_c, X, pd.DataFrame(y), problem_type=prob, cv=cv)
+        ForSelect(knn_c, X, pd.DataFrame(y), problem_type=prob, cv=cv)
 
     with pytest.raises(IndexError):
-        trial = ForSelect(knn_c, X, y[:100], problem_type=prob, cv=cv)
+        ForSelect(knn_c, X, y[:100], problem_type=prob, cv=cv)
 
 
 def test_feature_splitter():
