@@ -1,11 +1,7 @@
 from pyb4model.pyb4model import fit_and_report, \
                                 missing_val, ForSelect, feature_splitter
-from pyb4model import pyb4model
 from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
-from sklearn.model_selection import cross_val_score
-from sklearn.metrics import mean_squared_error
 import sklearn.datasets as datasets
-import unittest
 import pandas as pd
 import pytest
 import numpy as np
@@ -65,7 +61,8 @@ def test_fit_and_report():
 
     # test for exception
     with pytest.raises(TypeError):
-        fit_and_report(knn_r,
+        fit_and_report(
+            knn_r,
             X,
             y,
             Xv,
@@ -73,7 +70,8 @@ def test_fit_and_report():
             1)
 
     with pytest.raises(TypeError):
-        fit_and_report(1,
+        fit_and_report(
+            1,
             X,
             y,
             Xv,
@@ -81,7 +79,8 @@ def test_fit_and_report():
             'regression')
 
     with pytest.raises(TypeError):
-        fit_and_report(knn_r,
+        fit_and_report(
+            knn_r,
             1,
             y,
             Xv,
@@ -116,16 +115,16 @@ def test_ForSelect():
 
     # Ensure invalid input raises error
     with pytest.raises(ValueError):
-        trial = ForSelect(knn_c, X, y, problem_type=3, cv=cv)
+        ForSelect(knn_c, X, y, problem_type=3, cv=cv)
 
     with pytest.raises(TypeError):
-        trial = ForSelect(knn_c, X, y, problem_type=prob, cv="3")
+        ForSelect(knn_c, X, y, problem_type=prob, cv="3")
 
     with pytest.raises(TypeError):
-        trial = ForSelect("Hello", X, y, problem_type=prob, cv=cv)
+        ForSelect("Hello", X, y, problem_type=prob, cv=cv)
 
     with pytest.raises(TypeError):
-        trial = ForSelect(
+        ForSelect(
             knn_c,
             X,
             y,
@@ -134,10 +133,10 @@ def test_ForSelect():
             cv=cv)
 
     with pytest.raises(TypeError):
-        trial = ForSelect(knn_c, X, pd.DataFrame(y), problem_type=prob, cv=cv)
+        ForSelect(knn_c, X, pd.DataFrame(y), problem_type=prob, cv=cv)
 
     with pytest.raises(IndexError):
-        trial = ForSelect(knn_c, X, y[:100], problem_type=prob, cv=cv)
+        ForSelect(knn_c, X, y[:100], problem_type=prob, cv=cv)
 
 
 def test_feature_splitter():
