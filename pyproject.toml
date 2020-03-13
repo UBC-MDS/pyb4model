@@ -12,9 +12,9 @@ documentation = 'https://pyb4model.readthedocs.io'
 [tool.poetry.dependencies]
 python = "^3.7"
 pandas = "^1.0"
-sklearn = "^0.0.0"
 numpy = "^1.18.1"
 pytest = "^5.3.5"
+scikit-learn = "^0.22.2"
 
 [tool.poetry.dev-dependencies]
 pytest-cov = "^2.8"
