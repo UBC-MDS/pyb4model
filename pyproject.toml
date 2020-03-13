@@ -23,7 +23,7 @@ codecov = "^2.0.16"
 python-semantic-release = "^4.10.0"
 
 [tool.semantic_release]
-version_variable = "<package_name>/__init__.py:__version__"
+version_variable = "pyb4model/__init__.py:__version__"
 version_source = "commit"
 upload_to_pypi = "false"
 patch_without_tag = "true"
