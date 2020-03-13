@@ -39,52 +39,49 @@ def test_missing_val():
 
 # Here we use knn for regression and classification model and iris dataset
 # for testing
-class Test_model(unittest.TestCase):
-    def test_fit_and_report(self):
-        """
-        Test function for fit_and_report.
-        Check if the return length is correct,\
-        if the result is in correct range,if error is raised successfully
-        """
-        iris = datasets.load_iris(return_X_y=True)
-        knn_c = KNeighborsClassifier()
-        knn_r = KNeighborsRegressor()
-        X = iris[0][1:100]
-        y = iris[1][1:100]
-        Xv = iris[0][100:]
-        yv = iris[1][100:]
-        result_r = fit_and_report(knn_r, X, y, Xv, yv, 'regression')
-        result_c = fit_and_report(knn_c, X, y, Xv, yv, 'classification')
-        # test for output
-        self.assertTrue(len(result_r) == 2)
-        self.assertTrue(len(result_c) == 2)
-        self.assertTrue(0 <= result_r[0] <= 1)
-        self.assertTrue(0 <= result_r[1] <= 1)
-        self.assertTrue(0 <= result_c[0] <= 1)
-        self.assertTrue(0 <= result_c[1] <= 1)
-        # test for exception
-        self.assertRaises(
-            TypeError,
-            fit_and_report,
-            knn_r,
+def test_fit_and_report():
+    """
+    Test function for fit_and_report.
+    Check if the return length is correct,\
+    if the result is in correct range,if error is raised successfully
+    """
+    iris = datasets.load_iris(return_X_y=True)
+    knn_c = KNeighborsClassifier()
+    knn_r = KNeighborsRegressor()
+    X = iris[0][1:100]
+    y = iris[1][1:100]
+    Xv = iris[0][100:]
+    yv = iris[1][100:]
+    result_r = fit_and_report(knn_r, X, y, Xv, yv, 'regression')
+    result_c = fit_and_report(knn_c, X, y, Xv, yv, 'classification')
+
+    # test for output
+    assert len(result_r) == 2
+    assert len(result_c) == 2
+    assert 0 <= result_r[0] and result_r[0] <= 1
+    assert 0 <= result_r[1] and result_r[1] <= 1
+    assert 0 <= result_c[0] and result_c[0] <= 1
+    assert 0 <= result_c[1] and result_c[1] <= 1
+
+    # test for exception
+    with pytest.raises(TypeError):
+        fit_and_report(knn_r,
             X,
             y,
             Xv,
             yv,
             1)
-        self.assertRaises(
-            TypeError,
-            fit_and_report,
-            1,
+
+    with pytest.raises(TypeError):
+        fit_and_report(1,
             X,
             y,
             Xv,
             yv,
             'regression')
-        self.assertRaises(
-            TypeError,
-            fit_and_report,
-            knn_r,
+
+    with pytest.raises(TypeError):
+        fit_and_report(knn_r,
             1,
             y,
             Xv,
