@@ -1,3 +1,6 @@
+[![codecov](https://codecov.io/gh/UBC-MDS/pyb4model/branch/master/graph/badge.svg)](https://codecov.io/gh/UBC-MDS/pyb4model)
+
+
 # pyb4model Python Package
 
 ## Summary
