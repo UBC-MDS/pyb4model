@@ -24,7 +24,7 @@ This project aims to build a Python package that elegantly performs data pre-pro
 - This function will take in data, fit a model, and perform forward feature selection.
 - This function will return a dataframe with only the selected features.
 
-### Installation:
+### Installation
 
 ```
 pip install -i https://test.pypi.org/simple/ pyb4model
