@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>pyb4model package &#8212; pyb4model 0.1.0 documentation</title>
+    <title>pyb4model package &#8212; pyb4model 0.1.4 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -41,14 +41,16 @@
 <dt id="pyb4model.pyb4model.ForSelect">
 <code class="sig-prename descclassname">pyb4model.pyb4model.</code><code class="sig-name descname">ForSelect</code><span class="sig-paren">(</span><em class="sig-param">model</em>, <em class="sig-param">data_feature</em>, <em class="sig-param">data_label</em>, <em class="sig-param">min_features=1</em>, <em class="sig-param">max_features=None</em>, <em class="sig-param">problem_type='regression'</em>, <em class="sig-param">cv=3</em><span class="sig-paren">)</span><a class="headerlink" href="#pyb4model.pyb4model.ForSelect" title="Permalink to this definition">¶</a></dt>
 <dd><p>Implementation of forward selection algorithm.
-Search and score with mean cross validation score using feature candidates and
+Search and score with mean cross validation score
+using feature candidates and
 add features with the best score each step.
-Uses mean squared error for regression, accuracy for classification problem.</p>
+Uses mean squared error for regression,
+accuracy for classification problem.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>model</strong> (<em>object            -- sklearn model object</em>) – </p></li>
-<li><p><strong>data_feature</strong> (<em>object     -- pandas DataFrame object</em><em> (</em><em>features/predictors/explanatory variables</em><em>)</em>) – </p></li>
+<li><p><strong>data_feature</strong> (<em>object     -- pandas DataFrame object</em><em> (</em><em>features/predictors</em><em>)</em>) – </p></li>
 <li><p><strong>data_label</strong> (<em>object       -- pandas Series object</em><em> (</em><em>labels</em><em>)</em>) – </p></li>
 <li><p><strong>min_features</strong> (<em>integer    -- number of mininum features to select</em>) – </p></li>
 <li><p><strong>max_features</strong> (<em>integer    -- number of maximum features to select</em>) – </p></li>
