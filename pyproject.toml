@@ -22,6 +22,8 @@ pytest-cov = "^2.8"
 flake8 = "^3.7.9"
 codecov = "^2.0.16"
 python-semantic-release = "^4.10.0"
+sphinx = "^2.4.4"
+sphinxcontrib-napoleon = "^0.7"
 
 [tool.semantic_release]
 version_variable = "pyb4model/__init__.py:__version__"

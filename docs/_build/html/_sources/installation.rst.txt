@@ -32,13 +32,13 @@ You can either clone the public repository:
 
 .. code-block:: console
 
-    $ git clone git://github.com/andrealee011/pyb4model
+    $ git clone git://github.com/UBC-MDS/pyb4model
 
 Or download the `tarball`_:
 
 .. code-block:: console
 
-    $ curl  -OL https://github.com/andrealee011/pyb4model/tarball/master
+    $ curl  -OL https://github.com/UBC-MDS/pyb4model/tarball/master
 
 Once you have a copy of the source, you can install it with:
 
@@ -47,5 +47,5 @@ Once you have a copy of the source, you can install it with:
     $ python setup.py install
 
 
-.. _Github repo: https://github.com/andrealee011/pyb4model
-.. _tarball: https://github.com/andrealee011/pyb4model/tarball/master
+.. _Github repo: https://github.com/UBC-MDS/pyb4model
+.. _tarball: https://github.com/UBC-MDS/pyb4model/tarball/master
