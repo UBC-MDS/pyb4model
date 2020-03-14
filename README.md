@@ -24,6 +24,72 @@ This project aims to build a Python package that elegantly performs data pre-pro
 - This function will take in data, fit a model, and perform forward feature selection.
 - This function will return a dataframe with only the selected features.
 
+### Installation
+
+```
+pip install -i https://test.pypi.org/simple/ pyb4model
+```
+
+### Usage
+
+```
+>>> from pyb4model import pyb4model as pbm
+>>> from sklearn.metrics import mean_squared_error
+>>> from sklearn.impute import KNNImputer
+>>> from sklearn.model_selection import cross_val_score
+>>> import numpy as np
+>>> import pandas as pd
+```
+##### Missing Value Function
+
+```
+    Example
+    --------
+    df = pd.DataFrame(np.array([[1, 2, 3], [NaN, 5, 6], [7, 8, 9]]), columns=['a', 'b', 'c'])
+    pbm.missing_val(df, 'last')
+```
+
+##### Fit and Report Function
+```
+    Example
+    --------
+    iris = datasets.load_iris(return_X_y = True)
+    knn_c = KNeighborsClassifier()
+    knn_r = KNeighborsRegressor()
+    X = iris[0][1:100]
+    y =iris[1][1:100]
+    Xv = iris[0][100:]
+    yv = iris[1][100:]
+    result_r = pbm.fit_and_report(knn_r, X,y, Xv,yv, 'regression')
+```
+##### Forward Selection Function
+```
+    Example
+    --------
+    rf = RandomForestClassifier()
+    selected_features = pbm.ForSelect(rf,
+                                X_train,
+                                y_train,
+                                min_features=2,
+                                max_features=5,
+                                scoring="neg_mean_square",
+                                problem_type="regression",
+                                cv=4)
+    new_X_train = X_train[selected_features]
+```
+##### Feature Splitter Function
+```
+    Example
+    -------
+    df = {'Name': ['John', 'Micheal', 'Lindsey', 'Adam'],
+          'Age': [40, 22, 39, 15],
+          'Height(m)': [1.70, 1.82, 1.77, 1.69],
+          'Anual Salary(USD)': [40000, 65000, 70000, 15000],
+          'Nationality': ['Canada', 'USA', 'Britain', 'Australia'],
+          'Marital Status': ['Married', 'Single', 'Maried', 'Single']}
+    df = pd.DataFrame(df)
+    pbm.feature_splitter(data)
+```
 ## Dependencies
 |Package|Version|
 |-------|-------|
@@ -33,6 +99,9 @@ This project aims to build a Python package that elegantly performs data pre-pro
 |numpy  |^1.18.1|
 |pytest |^5.3.5 |
 
+## Documentation
+
+The complete documentation of this package is available [here](https://pyb4model.readthedocs.io/en/latest/?badge=latest)
 ## Python Ecosystem
 
 The Python package `sklearn` provides extensive classes of Machine Learning models and functions for feature selection and engineering. Some of the feature selection modules that `sklearn` has are: recursive feature elimination, univariate feature selection, and L1-based feature elimination. However, it does not have Forward Feature Selection.
