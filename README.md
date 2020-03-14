@@ -29,10 +29,9 @@ This project aims to build a Python package that elegantly performs data pre-pro
 |-------|-------|
 |python |^3.7   |
 |pandas |^1.0   |
-|sklearn|^0.22.1|
+|scikit-learn|^0.22.1|
 |numpy  |^1.18.1|
 |pytest |^5.3.5 |
-|unittest|^0.0.0|
 
 ## Python Ecosystem
 
