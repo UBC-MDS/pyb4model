@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyb4model"
-version = "0.1.13"
+version = "0.1.14"
 description = "A python package to preprocess data and conduct machine learning!"
 authors = ["Sakariya Aynashe", "Andrea Lee", "Jaekun Lee", "Xinwen Wang"]
 license = "MIT"
