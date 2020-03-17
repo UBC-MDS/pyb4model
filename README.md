@@ -23,12 +23,12 @@ This project aims to build a Python package that elegantly performs data pre-pro
 ## Dependencies
 |Package|Version|
 |-------|-------|
-|python |^3.7   |
-|pandas |^1.0   |
-|sklearn|^0.22.1|
-|numpy  |^1.18.1|
-|pytest |^5.3.5 |
-|unittest|^0.0.0|
+|[python](https://www.python.org/downloads/release/python-370/) |^3.7   |
+|[pandas](https://pandas.pydata.org/pandas-docs/stable/getting_started/install.html) |^1.0   |
+|[sklearn](https://scikit-learn.org/stable/install.html)|^0.22.1|
+|[numpy](https://scipy.org/install.html)  |^1.18.1|
+|[pytest](https://docs.pytest.org/en/latest/getting-started.html) |^5.3.5 |
+|[unittest](https://docs.python.org/3/library/unittest.html)|^0.0.0|
 
 ## Python Ecosystem
 
