@@ -93,11 +93,11 @@ pip install -i https://test.pypi.org/simple/ pyb4model
 ## Dependencies
 |Package|Version|
 |-------|-------|
-|python |^3.7   |
-|pandas |^1.0   |
-|scikit-learn|^0.22.1|
-|numpy  |^1.18.1|
-|pytest |^5.3.5 |
+|[python](https://www.python.org/downloads/release/python-370/) |^3.7   |
+|[pandas](https://pandas.pydata.org/pandas-docs/stable/getting_started/install.html) |^1.0   |
+|[sklearn](https://scikit-learn.org/stable/install.html)|^0.22.1|
+|[numpy](https://scipy.org/install.html)  |^1.18.1|
+|[pytest](https://docs.pytest.org/en/latest/getting-started.html) |^5.3.5 |
 
 ## Documentation
 
