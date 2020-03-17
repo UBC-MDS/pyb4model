@@ -32,7 +32,7 @@ pip install -i https://test.pypi.org/simple/ pyb4model
 
 ### Usage
 
-```
+```python3
 >>> from pyb4model import pyb4model as pbm
 >>> from sklearn.metrics import mean_squared_error
 >>> from sklearn.impute import KNNImputer
@@ -42,7 +42,7 @@ pip install -i https://test.pypi.org/simple/ pyb4model
 ```
 ##### Missing Value Function
 
-```
+```python3
     Example
     --------
     df = pd.DataFrame(np.array([[1, 2, 3], [NaN, 5, 6], [7, 8, 9]]), columns=['a', 'b', 'c'])
@@ -50,7 +50,7 @@ pip install -i https://test.pypi.org/simple/ pyb4model
 ```
 
 ##### Fit and Report Function
-```
+```python3
     Example
     --------
     iris = datasets.load_iris(return_X_y = True)
@@ -63,7 +63,7 @@ pip install -i https://test.pypi.org/simple/ pyb4model
     result_r = pbm.fit_and_report(knn_r, X,y, Xv,yv, 'regression')
 ```
 ##### Forward Selection Function
-```
+```python3
     Example
     --------
     rf = RandomForestClassifier()
@@ -78,7 +78,7 @@ pip install -i https://test.pypi.org/simple/ pyb4model
     new_X_train = X_train[selected_features]
 ```
 ##### Feature Splitter Function
-```
+```python3
     Example
     -------
     df = {'Name': ['John', 'Micheal', 'Lindsey', 'Adam'],
