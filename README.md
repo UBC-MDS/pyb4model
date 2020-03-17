@@ -44,7 +44,7 @@ pip install -i https://test.pypi.org/simple/ pyb4model
 
 ```python3
     Example
-    --------
+    -------
     df = pd.DataFrame(np.array([[1, 2, 3], [NaN, 5, 6], [7, 8, 9]]), columns=['a', 'b', 'c'])
     pbm.missing_val(df, 'last')
 ```
@@ -52,7 +52,7 @@ pip install -i https://test.pypi.org/simple/ pyb4model
 ##### Fit and Report Function
 ```python3
     Example
-    --------
+    -------
     iris = datasets.load_iris(return_X_y = True)
     knn_c = KNeighborsClassifier()
     knn_r = KNeighborsRegressor()
@@ -65,7 +65,7 @@ pip install -i https://test.pypi.org/simple/ pyb4model
 ##### Forward Selection Function
 ```python3
     Example
-    --------
+    -------
     rf = RandomForestClassifier()
     selected_features = pbm.ForSelect(rf,
                                 X_train,
