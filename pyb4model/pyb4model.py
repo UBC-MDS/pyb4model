@@ -100,14 +100,14 @@ def fit_and_report(model, X, y, Xv, yv, m_type='regression'):
 
     Examples
     --------
-    iris = datasets.load_iris(return_X_y = True)
-    knn_c = KNeighborsClassifier()
-    knn_r = KNeighborsRegressor()
-    X = iris[0][1:100]
-    y =iris[1][1:100]
-    Xv = iris[0][100:]
-    yv = iris[1][100:]
-    result_r = fit_and_report(knn_r, X,y, Xv,yv, 'regression')
+    >>> iris = datasets.load_iris(return_X_y = True)
+    >>> knn_c = KNeighborsClassifier()
+    >>> knn_r = KNeighborsRegressor()
+    >>> X = iris[0][1:100]
+    >>> y =iris[1][1:100]
+    >>> Xv = iris[0][100:]
+    >>> yv = iris[1][100:]
+    >>> result_r = fit_and_report(knn_r, X,y, Xv,yv, 'regression')
 
     """
     if not isinstance(m_type, str):
@@ -173,8 +173,8 @@ def ForSelect(
 
     Example
     --------
-    rf = RandomForestClassifier()
-    selected_features = ForSelect(rf,
+    >>> rf = RandomForestClassifier()
+    >>> selected_features = ForSelect(rf,
                                 X_train,
                                 y_train,
                                 min_features=2,
@@ -182,7 +182,7 @@ def ForSelect(
                                 scoring="neg_mean_square",
                                 problem_type="regression",
                                 cv=4)
-    new_X_train = X_train[selected_features]
+    >>> new_X_train = X_train[selected_features]
     """
 
     # Test Input Types
