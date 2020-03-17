@@ -44,7 +44,7 @@ Once you have a copy of the source, you can install it with:
 
 .. code-block:: console
 
-    $ pip install -i https://test.pypi.org/simple/ pyb4model
+    $ python setup.py install
 
 
 .. _Github repo: https://github.com/UBC-MDS/pyb4model
