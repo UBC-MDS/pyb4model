@@ -3,6 +3,9 @@ from sklearn.impute import KNNImputer
 from sklearn.model_selection import cross_val_score
 import numpy as np
 import pandas as pd
+from sklearn import datasets
+from sklearn.neighbors import KNeighborsRegressor, KNeighborsClassifier
+from sklearn.ensemble import RandomForestClassifier
 
 
 def missing_val(df, method):
@@ -108,7 +111,6 @@ def fit_and_report(model, X, y, Xv, yv, m_type='regression'):
     >>> Xv = iris[0][100:]
     >>> yv = iris[1][100:]
     >>> result_r = fit_and_report(knn_r, X,y, Xv,yv, 'regression')
-
     """
     if not isinstance(m_type, str):
         raise TypeError('Input should be a string')
@@ -174,14 +176,16 @@ def ForSelect(
     Example
     --------
     >>> rf = RandomForestClassifier()
+    >>> iris = datasets.load_iris(return_X_y = True)
+    >>> X_train = pd.DataFrame(iris[0][1:100])
+    >>> y_train = pd.Series(iris[1][1:100])
     >>> selected_features = ForSelect(rf,
-                                X_train,
-                                y_train,
+                                data_feature=X_train,
+                                data_label=y_train,
                                 min_features=2,
                                 max_features=5,
-                                scoring="neg_mean_square",
-                                problem_type="regression",
-                                cv=4)
+                                problem_type="classification",
+                                cv=2)
     >>> new_X_train = X_train[selected_features]
     """
 
@@ -302,8 +306,16 @@ def feature_splitter(data):
 
     Example
     -------
-    >>> feature_splitter(data)
-    ([categorical:],[numerical: ])
+    >>> df = {'Name': ['John', 'Micheal', 'Lindsey', 'Adam'],
+              'Age': [40, 22, 39, 15],
+              'Height(m)': [1.70, 1.82, 1.77, 1.69],
+              'Anual Salary(USD)': [40000, 65000, 70000, 15000],
+              'Nationality': ['Canada', 'USA', 'Britain', 'Australia'],
+              'Marital Status': ['Married', 'Single', 'Maried', 'Single']}
+    >>> df = pd.DataFrame(df)
+    >>> feature_splitter(df)
+    (['Age', 'Height(m)', 'Anual Salary(USD)'],
+    ['Name', 'Nationality', 'Marital Status'])
     """
     # Identify the categorical and numeric columns
     assert data.shape[1] > 1 and data.shape[0] > 1, "Your data file in not valid, dataframe should have at least\
