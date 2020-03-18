@@ -49,7 +49,7 @@ pip install -i https://test.pypi.org/simple/ pyb4model
     Example
     -------
     df = pd.DataFrame(np.array([[1, 2, 3], [np.NaN, 5, 6], [7, 8, 9]]), columns=['a', 'b', 'c'])
-    missing_val(df, 'last')
+    missing_val(df, 'knn')
 ```
 
 ##### Fit and Report Function
