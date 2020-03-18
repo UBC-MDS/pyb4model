@@ -100,8 +100,6 @@ def fit_and_report(model, X, y, Xv, yv, m_type='regression'):
 
     Examples
     --------
-    >>> from sklearn import datasets
-    >>> from sklearn.neighbors import KNeighborsRegressor, KNeighborsClassifier
     >>> iris = datasets.load_iris(return_X_y = True)
     >>> knn_c = KNeighborsClassifier()
     >>> knn_r = KNeighborsRegressor()
@@ -174,8 +172,6 @@ def ForSelect(
 
     Example
     --------
-    >>> from sklearn import datasets
-    >>> from sklearn.ensemble import RandomForestClassifier
     >>> rf = RandomForestClassifier()
     >>> iris = datasets.load_iris(return_X_y = True)
     >>> X_train = pd.DataFrame(iris[0][1:100])
