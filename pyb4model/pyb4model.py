@@ -27,9 +27,9 @@ def missing_val(df, method):
 
     Examples
     --------
-    >>> df = pd.DataFrame(np.array([[1, 2, 3], [NaN, 5, 6], [7, 8, 9]]),
+    >>> df = pd.DataFrame(np.array([[1, 2, 3], [np.NaN, 5, 6], [7, 8, 9]]),
                    columns=['a', 'b', 'c'])
-    >>> missing_val(df, 'last')
+    >>> missing_val(df, 'knn')
        a  b  c
     0  1  2  3
     1  1  5  6
@@ -40,7 +40,7 @@ def missing_val(df, method):
 
     if method not in ['delete', 'mean', 'knn']:
         raise ValueError(
-            'valid methods only include "delete", "mean", and "regression"')
+            'valid methods only include "delete", "mean", and "knn"')
 
     if not isinstance(
             df,
