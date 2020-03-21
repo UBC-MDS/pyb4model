@@ -33,20 +33,23 @@ pip install -i https://test.pypi.org/simple/ pyb4model
 ### Usage
 
 ```python3
->>> from pyb4model import pyb4model as pbm
+>>> from pyb4model.pyb4model import missing_val, fit_and_report, ForSelect, feature_splitter
 >>> from sklearn.metrics import mean_squared_error
 >>> from sklearn.impute import KNNImputer
 >>> from sklearn.model_selection import cross_val_score
 >>> import numpy as np
 >>> import pandas as pd
+>>> from sklearn import datasets
+>>> from sklearn.neighbors import KNeighborsRegressor, KNeighborsClassifier
+>>> from sklearn.ensemble import RandomForestClassifier
 ```
 ##### Missing Value Function
 
 ```python3
     Example
     -------
-    df = pd.DataFrame(np.array([[1, 2, 3], [NaN, 5, 6], [7, 8, 9]]), columns=['a', 'b', 'c'])
-    pbm.missing_val(df, 'last')
+    df = pd.DataFrame(np.array([[1, 2, 3], [np.NaN, 5, 6], [7, 8, 9]]), columns=['a', 'b', 'c'])
+    missing_val(df, 'knn')
 ```
 
 ##### Fit and Report Function
@@ -57,24 +60,26 @@ pip install -i https://test.pypi.org/simple/ pyb4model
     knn_c = KNeighborsClassifier()
     knn_r = KNeighborsRegressor()
     X = iris[0][1:100]
-    y =iris[1][1:100]
+    y = iris[1][1:100]
     Xv = iris[0][100:]
     yv = iris[1][100:]
-    result_r = pbm.fit_and_report(knn_r, X,y, Xv,yv, 'regression')
+    result_r = fit_and_report(knn_r, X,y, Xv,yv, 'regression')
 ```
 ##### Forward Selection Function
 ```python3
     Example
     -------
     rf = RandomForestClassifier()
-    selected_features = pbm.ForSelect(rf,
-                                X_train,
-                                y_train,
+    iris = datasets.load_iris(return_X_y = True)
+    X_train = pd.DataFrame(iris[0][1:100])
+    y_train = pd.Series(iris[1][1:100])
+    selected_features = ForSelect(rf,
+                                data_feature=X_train,
+                                data_label=y_train,
                                 min_features=2,
                                 max_features=5,
-                                scoring="neg_mean_square",
-                                problem_type="regression",
-                                cv=4)
+                                problem_type="classification",
+                                cv=2)
     new_X_train = X_train[selected_features]
 ```
 ##### Feature Splitter Function
@@ -88,7 +93,7 @@ pip install -i https://test.pypi.org/simple/ pyb4model
           'Nationality': ['Canada', 'USA', 'Britain', 'Australia'],
           'Marital Status': ['Married', 'Single', 'Maried', 'Single']}
     df = pd.DataFrame(df)
-    pbm.feature_splitter(data)
+    feature_splitter(df)
 ```
 ## Dependencies
 |Package|Version|
