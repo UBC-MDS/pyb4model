@@ -75,7 +75,7 @@ def missing_val(df, method):
 
 def fit_and_report(model, X, y, Xv, yv, m_type='regression'):
     """
-    fits a model and returns the train and validation errors as a list
+    Fits a model and returns the train and validation errors as a list
 
     Parameters
     ---------
@@ -107,7 +107,8 @@ def fit_and_report(model, X, y, Xv, yv, m_type='regression'):
     >>> y =iris[1][1:100]
     >>> Xv = iris[0][100:]
     >>> yv = iris[1][100:]
-    >>> result_r = fit_and_report(knn_r, X,y, Xv,yv, 'regression')
+    >>> fit_and_report(knn_r, X,y, Xv,yv, 'regression')
+    [0.0, 1.0]
     """
     if not isinstance(m_type, str):
         raise TypeError('Input should be a string')
@@ -176,14 +177,14 @@ def ForSelect(
     >>> iris = datasets.load_iris(return_X_y = True)
     >>> X_train = pd.DataFrame(iris[0][1:100])
     >>> y_train = pd.Series(iris[1][1:100])
-    >>> selected_features = ForSelect(rf,
-                                data_feature=X_train,
-                                data_label=y_train,
-                                min_features=2,
-                                max_features=5,
-                                problem_type="classification",
-                                cv=2)
-    >>> new_X_train = X_train[selected_features]
+    >>> ForSelect(rf,
+                    data_feature=X_train,
+                    data_label=y_train,
+                    min_features=2,
+                    max_features=5,
+                    problem_type="classification",
+                    cv=2)
+    [2]
     """
 
     # Test Input Types
