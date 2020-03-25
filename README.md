@@ -1,6 +1,7 @@
 ![Release](https://github.com/UBC-MDS/pyb4model/workflows/Release/badge.svg?branch=master)
 [![codecov](https://codecov.io/gh/UBC-MDS/pyb4model/branch/master/graph/badge.svg)](https://codecov.io/gh/UBC-MDS/pyb4model)
 [![Documentation Status](https://readthedocs.org/projects/pyb4model/badge/?version=latest)](https://pyb4model.readthedocs.io/en/latest/?badge=latest)
+![build](https://github.com/UBC-MDS/pyb4model/workflows/build/badge.svg)
 
 # pyb4model Python Package
 
