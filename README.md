@@ -50,6 +50,10 @@ pip install -i https://test.pypi.org/simple/ pyb4model
     -------
     df = pd.DataFrame(np.array([[1, 2, 3], [np.NaN, 5, 6], [7, 8, 9]]), columns=['a', 'b', 'c'])
     missing_val(df, 'knn')
+     a  b  c
+    0  1  2  3
+    1  1  5  6
+    2  7  8  9
 ```
 
 ##### Fit and Report Function
@@ -63,7 +67,8 @@ pip install -i https://test.pypi.org/simple/ pyb4model
     y = iris[1][1:100]
     Xv = iris[0][100:]
     yv = iris[1][100:]
-    result_r = fit_and_report(knn_r, X,y, Xv,yv, 'regression')
+    fit_and_report(knn_r, X,y, Xv,yv, 'regression')
+    [0.0, 1.0]
 ```
 ##### Forward Selection Function
 ```python3
@@ -73,14 +78,14 @@ pip install -i https://test.pypi.org/simple/ pyb4model
     iris = datasets.load_iris(return_X_y = True)
     X_train = pd.DataFrame(iris[0][1:100])
     y_train = pd.Series(iris[1][1:100])
-    selected_features = ForSelect(rf,
-                                data_feature=X_train,
-                                data_label=y_train,
-                                min_features=2,
-                                max_features=5,
-                                problem_type="classification",
-                                cv=2)
-    new_X_train = X_train[selected_features]
+    ForSelect(rf,
+                data_feature=X_train,
+                data_label=y_train,
+                min_features=2,
+                max_features=5,
+                problem_type="classification",
+                cv=2)
+    [2]
 ```
 ##### Feature Splitter Function
 ```python3
@@ -94,6 +99,8 @@ pip install -i https://test.pypi.org/simple/ pyb4model
           'Marital Status': ['Married', 'Single', 'Maried', 'Single']}
     df = pd.DataFrame(df)
     feature_splitter(df)
+    (['Age', 'Height(m)', 'Anual Salary(USD)'],
+    ['Name', 'Nationality', 'Marital Status'])
 ```
 ## Dependencies
 |Package|Version|
