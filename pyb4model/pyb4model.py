@@ -337,4 +337,5 @@ def feature_splitter(data):
     numerical = pd.DataFrame(numerical, columns=['Numerical'])
     categorical = pd.DataFrame(categorical, columns=['Categorical'])
     result = pd.concat([numerical, categorical], axis=1, ignore_index=False)
+    result = result.replace(np.nan, '-')
     return result
