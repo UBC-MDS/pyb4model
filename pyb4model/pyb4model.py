@@ -84,23 +84,23 @@ def fit_and_report(model, X, y, Xv, yv, m_type='regression'):
 
     Parameters
     ---------
-    model -- sklearn classifier model
+    model : sklearn classifier model
         The sklearn model
-    X -- numpy.ndarray
+    X : numpy.ndarray
         The features of the training set
-    y -- numpy.ndarray
+    y : numpy.ndarray
         The target of the training set
-    Xv -- numpy.ndarray
+    Xv : numpy.ndarray
         The feature of the validation set
-    yv -- numpy.ndarray
+    yv : numpy.ndarray
         The target of the validation set
-    m_type-- str
+    m_type : str
         The type for calculating error (default = 'regression')
 
 
     Returns
     -------
-    errors -- list
+    errors : list
         A list containing train (on X, y) and validation (on Xv, yv) errors
 
     Examples
@@ -162,18 +162,26 @@ def ForSelect(
 
     Parameters
     --------
-    model: object            -- sklearn model object
-    data_feature: object     -- pandas DataFrame object (features/predictors)
-    data_label: object       -- pandas Series object (labels)
-    min_features: integer    -- number of mininum features to select
-    max_features: integer    -- number of maximum features to select
-    problem_type: string     -- problem type {"classification", "regression"}
-    cv: integer              -- k for k-fold-cross-validation
+    model : object
+        sklearn model object
+    data_feature : object
+        pandas DataFrame object (features/predictors)
+    data_label : object
+        pandas Series object (labels)
+    min_features : integer
+        number of mininum features to select
+    max_features : integer
+        number of maximum features to select
+    problem_type : string
+        problem type {"classification", "regression"}
+    cv : integer
+        k for k-fold-cross-validation
 
 
     Returns
     --------
-    list                     -- a list of selected column/feature names
+    list
+        a list of selected column/feature names
 
 
     Example
@@ -303,7 +311,7 @@ def feature_splitter(data):
 
     Returns
     -------
-    tuple:
+    tuple
         tuple of two lists
 
 
