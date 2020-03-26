@@ -163,10 +163,22 @@ def test_feature_splitter():
                 'Married', 'Single', 'Maried', 'Single']}
     df_cat = pd.DataFrame(data_categorical_only)
 
-    assert feature_splitter(df) == ([
-        'Age', 'Height(m)', 'Anual Salary(USD)'], [
-        'Name', 'Nationality', 'Marital Status'])
-    assert isinstance(feature_splitter(df), tuple)
-    assert len(feature_splitter(df)) == 2
-    assert feature_splitter(df_cat) == (
-        [], ['Name', 'Nationality', 'Marital Status'])
+    assert pd.DataFrame.equals(
+        feature_splitter(df),
+        pd.DataFrame(
+            {
+                'Numerical': [
+                    'Age',
+                    'Height(m)',
+                    'Anual Salary(USD)'],
+                'Categorical': [
+                    'Name',
+                    'Nationality',
+                    'Marital Status']}))
+
+    assert isinstance(feature_splitter(df), pd.core.frame.DataFrame)
+    assert len(feature_splitter(df)) == 3
+    assert pd.DataFrame.equals(feature_splitter(df_cat), pd.DataFrame(
+        {'Numerical': [
+                               '-', '-', '-'], 'Categorical': [
+                                   'Name', 'Nationality', 'Marital Status']}))
