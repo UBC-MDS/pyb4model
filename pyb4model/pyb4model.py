@@ -334,4 +334,7 @@ def feature_splitter(data):
     assert len(numerical) + \
         len(categorical) == data.shape[1], "categorical and numerical variable list must match\
                                                                 df shape"
-    return print('Numerical: ',numerical,'\nCategorical:', categorical)
+    numerical = pd.DataFrame(numerical, columns=['Numerical'])
+    categorical = pd.DataFrame(categorical, columns = ['Categorical'])
+    result = pd.concat([numerical,categorical], axis=1,ignore_index=False)
+    return result
