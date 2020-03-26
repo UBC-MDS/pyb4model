@@ -12,7 +12,7 @@ def missing_val(df, method):
     ----------
     df : pandas dataframe
         Dataframe with missing values.
-    method: string
+    method : string
         Method to handle missing values.
         'delete', deletes row with missing values
         'mean', replaces missing values with the averages
