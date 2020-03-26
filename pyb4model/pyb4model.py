@@ -148,7 +148,6 @@ def ForSelect(
         model,
         data_feature,
         data_label,
-        min_features=1,
         max_features=None,
         problem_type='regression',
         cv=3):
@@ -168,15 +167,12 @@ def ForSelect(
         pandas DataFrame object (features/predictors)
     data_label : object
         pandas Series object (labels)
-    min_features : integer
-        number of mininum features to select
     max_features : integer
         number of maximum features to select
     problem_type : string
         problem type {"classification", "regression"}
     cv : integer
         k for k-fold-cross-validation
-
 
     Returns
     --------
@@ -193,11 +189,9 @@ def ForSelect(
     >>> ForSelect(rf,
                     data_feature=X_train,
                     data_label=y_train,
-                    min_features=2,
                     max_features=5,
                     problem_type="classification",
                     cv=2)
-    [2]
     """
 
     # Test Input Types
@@ -206,9 +200,6 @@ def ForSelect(
 
     if (not isinstance(max_features, int)) and (max_features is not None):
         raise TypeError("Your max number of features should be an integer")
-
-    if not isinstance(min_features, int):
-        raise TypeError("Your min number of features should be an integer")
 
     if not isinstance(cv, int):
         raise TypeError("Your cross validation number should be an integer")
@@ -227,8 +218,6 @@ def ForSelect(
         raise IndexError(
             "Number of rows are different in training feature and label")
 
-    print("Input Type Test passed")
-
     # Create Empty Feature list
     ftr_ = []
 
@@ -241,7 +230,7 @@ def ForSelect(
 
     # define scoring
     if problem_type == "regression":
-        scoring = 'neg_mean_squared_error',
+        scoring = 'neg_mean_squared_error'
     else:
         scoring = 'accuracy'
 
@@ -279,21 +268,13 @@ def ForSelect(
 
             # Report Progress
             i = i + 1
-            if i % 5 == 0:
-                print("{} Iterations Done".format(i))
-                print("current best score: {}".format(best_score))
-
-                print("Current selected features: {}".format(ftr_))
-                print("\n")
 
         else:
             # End process
-            print("{} iterations in total".format(i))
-            print("Final selected features: {}".format(ftr_))
             break
 
     # End Process
-    print("{} iterations in total".format(i))
+
     print("Final selected features: {}".format(ftr_))
 
     return ftr_
