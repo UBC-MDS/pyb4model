@@ -8,23 +8,19 @@ import pandas as pd
 def missing_val(df, method):
     """
     Handles missing values.
-
     Parameters
     ----------
     df : pandas dataframe
         Dataframe with missing values.
-    method: string
+    method : string
         Method to handle missing values.
         'delete', deletes row with missing values
         'mean', replaces missing values with the averages
         'knn', replaces missing values with nearest neighbour
-
     Returns
     -------
     pandas dataframe
         The dataframe without missing values.
-
-
     Examples
     --------
     >>> df = pd.DataFrame(np.array([[1, 2, 3], [np.NaN, 5, 6], [7, 8, 9]]),
@@ -54,6 +50,9 @@ def missing_val(df, method):
     if df.empty:  # edge case
         raise ValueError('dataframe cannot be empty')
 
+    if all(df.dtypes != np.number):  # edge case
+        raise ValueError('dataframe must have at least one numerical column')
+
     for i in range(len(df.columns)):  # edge case
         if df.iloc[:, i].isnull().sum() == len(df):
             raise ValueError('dataframe cannot columns with all NaN values')
@@ -64,11 +63,17 @@ def missing_val(df, method):
         df = df.dropna()
 
     if method == 'mean':
-        df = df.fillna(df.mean())
+        df_num = df.select_dtypes(include=np.number)
+        df_cat = df.select_dtypes(exclude=np.number)
+        df_num = df_num.fillna(df.mean())
+        df = pd.concat([df_num, df_cat], axis=1)
 
     if method == 'knn':
+        df_num = df.select_dtypes(include=np.number)
+        df_cat = df.select_dtypes(exclude=np.number)
         imputer = KNNImputer(n_neighbors=2, weights="uniform")
-        df = pd.DataFrame(imputer.fit_transform(df))
+        df_num = pd.DataFrame(imputer.fit_transform(df_num))
+        df = pd.concat([df_num, df_cat], axis=1)
 
     return df
 
@@ -79,23 +84,23 @@ def fit_and_report(model, X, y, Xv, yv, m_type='regression'):
 
     Parameters
     ---------
-    model -- sklearn classifier model
+    model : sklearn classifier model
         The sklearn model
-    X -- numpy.ndarray
+    X : numpy.ndarray
         The features of the training set
-    y -- numpy.ndarray
+    y : numpy.ndarray
         The target of the training set
-    Xv -- numpy.ndarray
+    Xv : numpy.ndarray
         The feature of the validation set
-    yv -- numpy.ndarray
+    yv : numpy.ndarray
         The target of the validation set
-    m_type-- str
+    m_type : str
         The type for calculating error (default = 'regression')
 
 
     Returns
     -------
-    errors -- list
+    errors : list
         A list containing train (on X, y) and validation (on Xv, yv) errors
 
     Examples
@@ -156,17 +161,23 @@ def ForSelect(
 
     Parameters
     --------
-    model: object            -- sklearn model object
-    data_feature: object     -- pandas DataFrame object (features/predictors)
-    data_label: object       -- pandas Series object (labels)
-    max_features: integer    -- number of maximum features to select
-    problem_type: string     -- problem type {"classification", "regression"}
-    cv: integer              -- k for k-fold-cross-validation
-
+    model : object
+        sklearn model object
+    data_feature : object
+        pandas DataFrame object (features/predictors)
+    data_label : object
+        pandas Series object (labels)
+    max_features : integer
+        number of maximum features to select
+    problem_type : string
+        problem type {"classification", "regression"}
+    cv : integer
+        k for k-fold-cross-validation
 
     Returns
     --------
-    list                     -- a list of selected column/feature names
+    list
+        a list of selected column/feature names
 
 
     Example
@@ -281,7 +292,7 @@ def feature_splitter(data):
 
     Returns
     -------
-    tuple:
+    tuple
         tuple of two lists
 
 
@@ -317,4 +328,8 @@ def feature_splitter(data):
     assert len(numerical) + \
         len(categorical) == data.shape[1], "categorical and numerical variable list must match\
                                                                 df shape"
-    return numerical, categorical
+    numerical = pd.DataFrame(numerical, columns=['Numerical'])
+    categorical = pd.DataFrame(categorical, columns=['Categorical'])
+    result = pd.concat([numerical, categorical], axis=1, ignore_index=False)
+    result = result.replace(np.nan, '-')
+    return result

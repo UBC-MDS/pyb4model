@@ -8,29 +8,40 @@ import numpy as np
 
 
 def test_missing_val():
-
     """
     Test missing_val function
     Check for proper inputs and outputs, throw error otherwise
     """
-    df = pd.DataFrame({'A': [1, np.nan, 2, 1, 3], 'B': [np.nan, 4, 5, 6, 3]})
+    df = pd.DataFrame({'A': [1, np.nan, 2, 1, 3],
+                       'B': [np.nan, 4, 5, 6, 3],
+                       'C': ['a', 'a', 'b', 'b', 'c']})
+
     assert len(missing_val(df, 'delete')
                ) == 3, 'listwise deletion should remove rows\
                                     with missing values'
+
     assert missing_val(
         df, 'mean').iloc[:, 1][0] == 4.5, 'mean imputation should replace\
                                             missing value with average'
+
     assert missing_val(
         df, 'knn').iloc[:, 1][0] == 5.5, 'knn imputation should replace missing value\
                                             with nearest neighbour'
+
     with pytest.raises(ValueError):
         missing_val(pd.DataFrame(), 'delete')
+
     with pytest.raises(ValueError):
         missing_val(df, 'del')
+
     with pytest.raises(ValueError):
         missing_val(pd.DataFrame({'A': [1], 'B': [np.nan]}), 'delete')
+
     with pytest.raises(TypeError):
         missing_val(1, 'delete')
+
+    with pytest.raises(ValueError):
+        missing_val(pd.DataFrame({'A': ['a']}), 'delete')
 
 
 # Here we use knn for regression and classification model and iris dataset
@@ -163,10 +174,22 @@ def test_feature_splitter():
                 'Married', 'Single', 'Maried', 'Single']}
     df_cat = pd.DataFrame(data_categorical_only)
 
-    assert feature_splitter(df) == ([
-        'Age', 'Height(m)', 'Anual Salary(USD)'], [
-        'Name', 'Nationality', 'Marital Status'])
-    assert isinstance(feature_splitter(df), tuple)
-    assert len(feature_splitter(df)) == 2
-    assert feature_splitter(df_cat) == (
-        [], ['Name', 'Nationality', 'Marital Status'])
+    assert pd.DataFrame.equals(
+        feature_splitter(df),
+        pd.DataFrame(
+            {
+                'Numerical': [
+                    'Age',
+                    'Height(m)',
+                    'Anual Salary(USD)'],
+                'Categorical': [
+                    'Name',
+                    'Nationality',
+                    'Marital Status']}))
+
+    assert isinstance(feature_splitter(df), pd.core.frame.DataFrame)
+    assert len(feature_splitter(df)) == 3
+    assert pd.DataFrame.equals(feature_splitter(df_cat), pd.DataFrame(
+        {'Numerical': [
+                               '-', '-', '-'], 'Categorical': [
+                                   'Name', 'Nationality', 'Marital Status']}))
