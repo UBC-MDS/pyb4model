@@ -27,9 +27,9 @@ def missing_val(df, method):
 
     Examples
     --------
-    >>> df = pd.DataFrame(np.array([[1, 2, 3], [NaN, 5, 6], [7, 8, 9]]),
+    >>> df = pd.DataFrame(np.array([[1, 2, 3], [np.NaN, 5, 6], [7, 8, 9]]),
                    columns=['a', 'b', 'c'])
-    >>> missing_val(df, 'last')
+    >>> missing_val(df, 'knn')
        a  b  c
     0  1  2  3
     1  1  5  6
@@ -40,7 +40,7 @@ def missing_val(df, method):
 
     if method not in ['delete', 'mean', 'knn']:
         raise ValueError(
-            'valid methods only include "delete", "mean", and "regression"')
+            'valid methods only include "delete", "mean", and "knn"')
 
     if not isinstance(
             df,
@@ -75,7 +75,7 @@ def missing_val(df, method):
 
 def fit_and_report(model, X, y, Xv, yv, m_type='regression'):
     """
-    fits a model and returns the train and validation errors as a list
+    Fits a model and returns the train and validation errors as a list
 
     Parameters
     ---------
@@ -107,8 +107,8 @@ def fit_and_report(model, X, y, Xv, yv, m_type='regression'):
     >>> y =iris[1][1:100]
     >>> Xv = iris[0][100:]
     >>> yv = iris[1][100:]
-    >>> result_r = fit_and_report(knn_r, X,y, Xv,yv, 'regression')
-
+    >>> fit_and_report(knn_r, X,y, Xv,yv, 'regression')
+    [0.0, 1.0]
     """
     if not isinstance(m_type, str):
         raise TypeError('Input should be a string')
@@ -172,14 +172,15 @@ def ForSelect(
     Example
     --------
     >>> rf = RandomForestClassifier()
-    >>> selected_features = ForSelect(rf,
-                                X_train,
-                                y_train,
-                                max_features=5,
-                                scoring="neg_mean_square",
-                                problem_type="regression",
-                                cv=4)
-    >>> new_X_train = X_train[selected_features]
+    >>> iris = datasets.load_iris(return_X_y = True)
+    >>> X_train = pd.DataFrame(iris[0][1:100])
+    >>> y_train = pd.Series(iris[1][1:100])
+    >>> ForSelect(rf,
+                    data_feature=X_train,
+                    data_label=y_train,
+                    max_features=5,
+                    problem_type="classification",
+                    cv=2)
     """
 
     # Test Input Types
@@ -286,8 +287,16 @@ def feature_splitter(data):
 
     Example
     -------
-    >>> feature_splitter(data)
-    ([categorical:],[numerical: ])
+    >>> df = {'Name': ['John', 'Micheal', 'Lindsey', 'Adam'],
+              'Age': [40, 22, 39, 15],
+              'Height(m)': [1.70, 1.82, 1.77, 1.69],
+              'Anual Salary(USD)': [40000, 65000, 70000, 15000],
+              'Nationality': ['Canada', 'USA', 'Britain', 'Australia'],
+              'Marital Status': ['Married', 'Single', 'Maried', 'Single']}
+    >>> df = pd.DataFrame(df)
+    >>> feature_splitter(df)
+    (['Age', 'Height(m)', 'Anual Salary(USD)'],
+    ['Name', 'Nationality', 'Marital Status'])
     """
     # Identify the categorical and numeric columns
     assert data.shape[1] > 1 and data.shape[0] > 1, "Your data file in not valid, dataframe should have at least\
