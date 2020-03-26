@@ -8,7 +8,6 @@ import pandas as pd
 def missing_val(df, method):
     """
     Handles missing values.
-
     Parameters
     ----------
     df : pandas dataframe
@@ -18,13 +17,10 @@ def missing_val(df, method):
         'delete', deletes row with missing values
         'mean', replaces missing values with the averages
         'knn', replaces missing values with nearest neighbour
-
     Returns
     -------
     pandas dataframe
         The dataframe without missing values.
-
-
     Examples
     --------
     >>> df = pd.DataFrame(np.array([[1, 2, 3], [np.NaN, 5, 6], [7, 8, 9]]),
@@ -54,6 +50,9 @@ def missing_val(df, method):
     if df.empty:  # edge case
         raise ValueError('dataframe cannot be empty')
 
+    if all(df.dtypes != np.number):  # edge case
+        raise ValueError('dataframe must have at least one numerical column')
+
     for i in range(len(df.columns)):  # edge case
         if df.iloc[:, i].isnull().sum() == len(df):
             raise ValueError('dataframe cannot columns with all NaN values')
@@ -64,11 +63,17 @@ def missing_val(df, method):
         df = df.dropna()
 
     if method == 'mean':
-        df = df.fillna(df.mean())
+        df_num = df.select_dtypes(include=np.number)
+        df_cat = df.select_dtypes(exclude=np.number)
+        df_num = df_num.fillna(df.mean())
+        df = pd.concat([df_num, df_cat], axis=1)
 
     if method == 'knn':
+        df_num = df.select_dtypes(include=np.number)
+        df_cat = df.select_dtypes(exclude=np.number)
         imputer = KNNImputer(n_neighbors=2, weights="uniform")
-        df = pd.DataFrame(imputer.fit_transform(df))
+        df_num = pd.DataFrame(imputer.fit_transform(df_num))
+        df = pd.concat([df_num, df_cat], axis=1)
 
     return df
 
