@@ -334,4 +334,4 @@ def feature_splitter(data):
     assert len(numerical) + \
         len(categorical) == data.shape[1], "categorical and numerical variable list must match\
                                                                 df shape"
-    return numerical, categorical
+    return print('Numerical: ',numerical,'\nCategorical:', categorical)
