@@ -206,7 +206,6 @@ def ForSelect(
         raise IndexError(
             "Number of rows are different in training feature and label")
 
-
     # Create Empty Feature list
     ftr_ = []
 
